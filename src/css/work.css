@@ -1,0 +1,38 @@
+/*work_nav*/
+.nav_bg{    background: #dcdcdc;
+    border-radius: 0.5rem; -webkit-border-radius:0.5rem; -moz-border-radius:0.5rem;
+    margin: 0 3px;
+    color: black;
+    }
+a.nav_active{color: white; background:#f60; }
+a.nav-item.is-tab:hover{border-bottom: 2px solid #f60;}
+
+/*resveration*/
+.search_bg{
+    background: #f4f8fb; margin: 20px;
+}
+.el-select .el-input {
+    width: 110px;
+  }
+
+  .r_item{overflow: auto;}
+  .r_item li{float: left; width: auto; margin: 15px 20px; padding: 15px 20px; background: #e6e6e6;}
+
+  .r_li_img{position: relative; line-height: 0;}
+  .r_item_icon{position: absolute; top:-25px;    left: -18px;}
+
+  .r_row li{float: none; margin: 8px 0 0 0; padding: 0; overflow: auto;}
+  .r_row span{display: inline-block; float:left;}
+  .r_listTitle{width:7rem; text-align: right;}
+  .r_listCont{width: 6rem; text-align: left;}
+  .r_edit{float: right;  color: #f60; cursor: pointer;}
+  .r_edit:hover{color:#1e82dd ;}
+  .r_button{background: #ecba38; color: white; width: 13rem;}
+  .r_button:hover{background: #f60; color: white;}
+  .r_but{background: #1e82dd; color: #ecba38; width: 8rem; margin: 0 15px 0 0;}
+  .r_listCont .el-button{padding: 0;background: none; border:none; float: right;}
+
+  .r_color1{color:#1e82dd; }
+  .r_color2{color: #1e9600;}
+/*-------------*/
+.mar_tl20{margin: 20px 0 0 20px;}

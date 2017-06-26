@@ -1,0 +1,19 @@
+.Rfrom{ border-left:1px solid #b5b5b5; margin:20px 10px; padding:0.6rem 1.5rem;}
+.Rfrom input{text-indent:0.5rem;}
+
+.borderR{border-right:1px solid;}
+.marginTB{margin:1rem 0;}
+
+	#userMessage{position: absolute;
+    z-index: 100;
+    margin: -1.5rem 0;
+    color: red;}
+
+.fade-enter-active, .fade-leave-active{
+	transition:opacity 1s;
+	opacity:1;
+	}
+	
+.fade-enter, .fade-leave-active{
+	opacity:0;
+}
