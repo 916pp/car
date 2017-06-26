@@ -97,7 +97,6 @@
 require('./css/bulma.css');
 require('./css/css/font-awesome.css');
 require('./css/index.css');
-console.log(123);
 export default {
    data: function () {
         return{

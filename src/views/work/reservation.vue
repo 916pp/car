@@ -48,7 +48,7 @@
                         <li>
                             <span class="r_listTitle">目前状态：</span>
                              <span class="r_listCont r_color2">未确认
-                                 <el-button @click='messageBox'><i class="icon iconfont icon-bianji r_edit"></i></el-button>
+                                 <el-button @click='messageBox1'><i class="icon iconfont icon-bianji r_edit"></i></el-button>
                             </span>
 
                         </li>
@@ -63,13 +63,19 @@
    //require('../../css/bulma.css');
    
    import Vue from 'vue';
-   import {Select,Option,DatePicker,Input,Button,MessageBox } from 'element-ui';
-   Vue.use(Select);
-   Vue.use(Option);
-   Vue.use(DatePicker);
-   Vue.use(Input);
-   Vue.use(Button);
-   Vue.use(MessageBox);
+   import {Select,Option,DatePicker,Input,Button,MessageBox, Message} from 'element-ui';
+   Vue.component(MessageBox.name, MessageBox);
+   Vue.component(Message.name, Message);
+   Vue.component(Select.name, Select);
+   Vue.component(Option.name, Option);
+   Vue.component(DatePicker.name, DatePicker);
+   Vue.component(Input.name, Input);
+   Vue.component(Button.name, Button);
+   Vue.prototype.$msgbox = MessageBox;
+    Vue.prototype.$alert = MessageBox.alert;
+    Vue.prototype.$confirm = MessageBox.confirm;
+    Vue.prototype.$prompt = MessageBox.prompt;
+    Vue.prototype.$message = Message;
     export default  {
         data: function () {
             return {
@@ -88,8 +94,39 @@
             getSelect(){
                 console.log(this.nowDate);
             },
-            messageBox(){
-                
+            messageBox1(){
+                const h=this.$createElement;
+                console.log(this, this.$alert);
+                this.$msgbox({
+                    title:'预约记录状态修改',
+                    message:h('p',null,[
+                        h('i',{class:'icon iconfont icon-weiqueren'},'未确认')
+                    ]),
+                    showCancelButton:true,
+                    confirmButtonText:'确定',
+                    cancelButtonText:'取消',
+                    beforeClose:(action,instance,done)=>{
+                        if(action ==='confirm')
+                        {
+                            instance.confirmButtonLoading=true;
+                            instance.confirmButtonText='执行中...';
+                            setTimeout(()=>{
+                                done();
+                                setTimeout(()=>{
+                                    instance.confirmButtonLoading=false;
+                                },300);
+                            },3000);
+                        }
+                        else{
+                            done();
+                        }
+                    }
+                }).then(action => {
+                    this.$message({
+                        type:'info',
+                        message:'action'+action
+                    });
+                });
             }
         }
     }
