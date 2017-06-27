@@ -1,18 +1,24 @@
 <template>
     <div>
-       <div class="columns is-marginless" @click="getSelect()">
-            <div class="column search_bg">
+       <div class="columns search_bg mar_20" >
+           <div class="column is-2">
                 <a class="button r_but">添加预约单</a>
+           </div>
+            <div class="column  r_search_m">
+                
                 <el-select v-model="selectValue"  size='small' >
                     <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
                     </el-option>
                 </el-select>
-                <el-date-picker v-model="nowDate"  size='small' type="daterange" placeholder="最早至今" ></el-date-picker>
-            
+                <el-date-picker class="r_search_date" v-model="nowDate"  size='small' type="daterange" range-separator='至'  placeholder=''></el-date-picker>
+            </div>
+            <div class="column  pad_l0">
             <el-input v-model='search' size='small'>
-                <el-button slot='append' icon="search"></el-button>
+                <el-button slot='append' icon="search" @click="getSearch"></el-button>
             </el-input>
             </div>
+            <div class="column is-2">
+           </div>
        </div> 
        <div>
             <ul class="r_item">
@@ -52,10 +58,18 @@
                             </span>
 
                         </li>
-                        <li><a class="button r_button">查看服务</a></li>
+                        <li v-show=but_type><a class="button r_button">查看服务</a></li>
                     </ul>
                 </li>
+
+
+
+                
             </ul>
+        </div>
+        <div class="page">
+            <el-pagination @size-change='pageNumber' @current-change='nowPage' 
+            :current-page="currentPage" :page-sizes="[5,10,15,20]" :page-size="5" layout="prev,pager,next,sizes,total" :total="100"></el-pagination>
         </div>      
     </div>
 </template>
@@ -63,7 +77,7 @@
    //require('../../css/bulma.css');
    
    import Vue from 'vue';
-   import {Select,Option,DatePicker,Input,Button,MessageBox, Message} from 'element-ui';
+   import {Select,Option,DatePicker,Input,Button,MessageBox, Message,Pagination} from 'element-ui';
    Vue.component(MessageBox.name, MessageBox);
    Vue.component(Message.name, Message);
    Vue.component(Select.name, Select);
@@ -71,11 +85,17 @@
    Vue.component(DatePicker.name, DatePicker);
    Vue.component(Input.name, Input);
    Vue.component(Button.name, Button);
+   Vue.component(Pagination.name, Pagination);
+
    Vue.prototype.$msgbox = MessageBox;
     Vue.prototype.$alert = MessageBox.alert;
     Vue.prototype.$confirm = MessageBox.confirm;
     Vue.prototype.$prompt = MessageBox.prompt;
     Vue.prototype.$message = Message;
+    var date=new Date();
+    var searchDate=date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
+    
+    
     export default  {
         data: function () {
             return {
@@ -86,21 +106,32 @@
                     {value:'4',label:'全部'}
                 ],
                 selectValue:'未确认',
-                nowDate:'',
-                search:''
+                nowDate:[date,date],
+                datePlaceholder:'最早至'+searchDate,
+                search:'xd',
+                but_type:true,
+                currentPage:1
             }
         },
         methods:{
-            getSelect(){
-                console.log(this.nowDate);
-            },
-            messageBox1(){
+             messageBox1(){
                 const h=this.$createElement;
-                console.log(this, this.$alert);
+                console.log( this.$createElement);
                 this.$msgbox({
                     title:'预约记录状态修改',
                     message:h('p',null,[
-                        h('i',{class:'icon iconfont icon-weiqueren'},'未确认')
+                        h('a',{class:' r_edit_but r_edit_active','@click':'updatType("1")',id:'aa'},[
+                            h('i',{class:'icon iconfont icon-weiqueren r_edit_ic '},null),
+                            h('h1',null,'未确认')
+                        ]),
+                        h('a',{class:' r_edit_but'},[
+                            h('i',{class:'icon iconfont icon-queren r_edit_ic'},null),
+                            h('h1',null,'已确认')
+                        ]),
+                        h('a',{class:' r_edit_but'},[
+                            h('i',{class:'icon iconfont icon-quxiao r_edit_ic'},null),
+                            h('h1',null,'取消')
+                        ])
                     ]),
                     showCancelButton:true,
                     confirmButtonText:'确定',
@@ -127,6 +158,22 @@
                         message:'action'+action
                     });
                 });
+            },
+            getSearch(){
+                    
+                    var arrDate=this.nowDate;
+                    var startDate='',arrStart=arrDate[0];
+                    var endDate='',arrEnd=arrDate[1];
+                    startDate=arrStart.getFullYear();
+
+                console.log( startDate);
+                console.log(this.search+'----------'+this.nowDate+'-----------'+this.selectValue);
+            },
+            pageNumber(val){
+                console.log('pageNumber'+val);
+            },
+            nowPage(val){
+                console.log('nowPage'+val);
             }
         }
     }

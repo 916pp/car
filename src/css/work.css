@@ -9,14 +9,21 @@ a.nav-item.is-tab:hover{border-bottom: 2px solid #f60;}
 
 /*resveration*/
 .search_bg{
-    background: #f4f8fb; margin: 20px;
+    background: #f4f8fb;
 }
-.el-select .el-input {
-    width: 110px;
+.r_search_m{padding:.75rem 0 .75rem .75rem; text-align: right;}
+.r_search_m .el-select{margin: 0 -4px 0 0;}
+
+.r_search_m .el-input__inner{border-radius: 4px 0 0 4px;}
+.pad_l0 .el-input__inner{border-radius: 0 4px 4px 0;}
+.r_search_date .el-input__inner{border-radius: 0;}
+
+.r_search_m  .el-select, .r_search_m .el-input {
+    width: 110px; 
   }
 
   .r_item{overflow: auto;}
-  .r_item li{float: left; width: auto; margin: 15px 20px; padding: 15px 20px; background: #e6e6e6;}
+  .r_item li{float: left; width: auto;     margin: 15px 1px 20px 20px; padding: 15px 20px; background: #e6e6e6;}
 
   .r_li_img{position: relative; line-height: 0;}
   .r_item_icon{position: absolute; top:-25px;    left: -18px;}
@@ -31,8 +38,28 @@ a.nav-item.is-tab:hover{border-bottom: 2px solid #f60;}
   .r_button:hover{background: #f60; color: white;}
   .r_but{background: #1e82dd; color: #ecba38; width: 8rem; margin: 0 15px 0 0;}
   .r_listCont .el-button{padding: 0;background: none; border:none; float: right;}
+  .r_edit_but{display: inline-block;
+    text-align: center;
+    margin: 15px 20px 0; width: 5rem; color:#888888; }
+   .r_edit_active{color: red;}
+
+  .r_edit_ic.iconfont{font-size: 60px; text-align: center; margin: 0 0 25px;}
+
+/*服务记录*/
+.serviceBilling .el-select,.serviceBilling .el-input{width:110px;}
+
+
+/*分页*/
+.page{background: #1e1e1e; position: fixed; bottom: 3rem; color: white; width: 100%; text-align: center;}
+.page .el-pagination{margin: 10px 0 0 0;}
+.page .number{ border-radius: 0; margin: 0 3px;}
+.page .el-pagination__total{color: white;}
+.page input,.page button{margin: 0 6px;}
 
   .r_color1{color:#1e82dd; }
   .r_color2{color: #1e9600;}
 /*-------------*/
 .mar_tl20{margin: 20px 0 0 20px;}
+.mar_20{margin: 20px;}
+
+.pad_l0{padding:.75rem .75rem .75rem 0;}
