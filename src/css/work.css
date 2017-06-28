@@ -7,7 +7,7 @@
 a.nav_active{color: white; background:#f60; }
 a.nav-item.is-tab:hover{border-bottom: 2px solid #f60;}
 
-/*resveration*/
+/*resveration---预约记录--------------------*/
 .search_bg{
     background: #f4f8fb;
 }
@@ -34,18 +34,33 @@ a.nav-item.is-tab:hover{border-bottom: 2px solid #f60;}
   .r_listCont{width: 6rem; text-align: left;}
   .r_edit{float: right;  color: #f60; cursor: pointer;}
   .r_edit:hover{color:#1e82dd ;}
-  .r_button{background: #ecba38; color: white; width: 13rem;}
-  .r_button:hover{background: #f60; color: white;}
+
+  .r_button{background: #ecba38;}
+    .r_button1{background:#1e82dd; }
+
+  .r_button,.r_button1{ color: white; width: 13rem;}
+  .r_button:hover,.r_button1:hover{background: #f60; color: white;}
   .r_but{background: #1e82dd; color: #ecba38; width: 8rem; margin: 0 15px 0 0;}
+ 
+
   .r_listCont .el-button{padding: 0;background: none; border:none; float: right;}
   .r_edit_but{display: inline-block;
     text-align: center;
-    margin: 15px 20px 0; width: 5rem; color:#888888; }
+    margin: 15px 10px 0; width: 5rem; color:#888888; }
    .r_edit_active{color: red;}
 
   .r_edit_ic.iconfont{font-size: 60px; text-align: center; margin: 0 0 25px;}
+  .r_statuc .el-dialog__footer{text-align: center;}
+  .r_statuc .el-button{float: none; background:#1e82dd; color: white; width: 4rem; height: 2rem; }
+  .r_statuc .el-button span{display: inline-block; text-align: center;width: 100%;}
+  .r_statuc .el-button:hover{color:#ecba38; }
+  .r_edit_active:hover{color: red;}
+  /*新加预约单*/
+  .reservation .el-checkbox+.el-checkbox{margin-left:0; margin: 0 2px;}
 
-/*服务记录*/
+
+
+/*服务记录------------------------------*/
 .serviceBilling .el-select,.serviceBilling .el-input{width:110px;}
 
 
