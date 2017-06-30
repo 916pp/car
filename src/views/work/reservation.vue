@@ -154,6 +154,7 @@
    //require('../../css/bulma.css');
    
    import Vue from 'vue';
+   import vueResource from 'vue-resource';
    import {Select,Option,DatePicker,Input,Button,Dialog,Pagination,Form,FormItem,Col,TimePicker,RadioGroup,Radio,CheckboxGroup,Checkbox} from 'element-ui';
    Vue.component(CheckboxGroup.name, CheckboxGroup);
    Vue.component(Checkbox.name, Checkbox);
@@ -171,12 +172,22 @@
    Vue.component(Button.name, Button);
    Vue.component(Pagination.name, Pagination);
 
-  
+  Vue.use(vueResource);
+
     var pastDate=new Date();
     pastDate.setMonth(pastDate.getMonth()-6);
     
-    
+                   
+
     export default  {
+        created:function(){
+            window.eventBus.$on('change', e => {
+                console.log(1111, e);
+            });
+            
+                // alert(111);
+            
+        },
         data: function () {
             return {
                 options:[

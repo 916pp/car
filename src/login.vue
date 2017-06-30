@@ -68,7 +68,7 @@ export default {
 					vm.$http.post(vm.url,vm.options).then(
 					function(response){
 						window.sessionStorage.userName=vm.options.userName;
-						window.sessionStorage.userPass=vm.options.userPass;
+						//window.sessionStorage.userPass=vm.options.userPass;
 						//console.log(window.sessionStorage.getItem('userName'));
 						vm.options.userName='';
 						vm.options.userPass='';

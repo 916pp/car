@@ -101,7 +101,7 @@ export default {
    data: function () {
         return{
 			userName:window.sessionStorage.getItem('userName'),
-			userPass:window.sessionStorage.getItem('userPass'),
+			//userPass:window.sessionStorage.getItem('userPass'),
 			nav:'purchase'
         }
     },

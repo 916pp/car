@@ -111,6 +111,7 @@ import businessDaily from "./work/businessDaily.vue";
                       vm.isServiceBilling=false;
                       vm.isServiceRecord=false;
                       vm.isBusinessDaily=false;
+                      window.eventBus.$emit('change', 'reservation');
                 }
                 else if(el=='serviceBilling')
                 {

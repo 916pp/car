@@ -55,13 +55,25 @@ a.nav-item.is-tab:hover{border-bottom: 2px solid #f60;}
   .r_statuc .el-button span{display: inline-block; text-align: center;width: 100%;}
   .r_statuc .el-button:hover{color:#ecba38; }
   .r_edit_active:hover{color: red;}
-  /*新加预约单*/
+       /*新加预约单*/
   .reservation .el-checkbox+.el-checkbox{margin-left:0; margin: 0 2px;}
 
 
 
 /*服务记录------------------------------*/
-.serviceBilling .el-select,.serviceBilling .el-input{width:110px;}
+        /*搜索*/
+.serviceBilling .el-select,.serviceBilling .el-input{width:116px; margin: 0 0 0 5px;}
+.serviceBilling .search_bg .el-date-editor--daterange.el-input{width: 260px;}
+.s_many .el-input,.s_many .el-select{width: 260px;}
+.s_many .el-select__tags{max-width:260px!important;}
+.serviceBilling .search_bg .column{padding: .75rem 0 .75rem .75rem;}
+.serviceBilling .search_bg p{margin: 10px 0 0 0;}
+.s_search_but{width: 4rem;
+    height: 5rem;
+    background: #f60;
+    margin: 8px 0 0 0; color: white; font-size: 2rem;}
+
+
 
 
 /*分页*/
@@ -78,3 +90,6 @@ a.nav-item.is-tab:hover{border-bottom: 2px solid #f60;}
 .mar_20{margin: 20px;}
 
 .pad_l0{padding:.75rem .75rem .75rem 0;}
+
+
+.text_r{text-align: right;}
