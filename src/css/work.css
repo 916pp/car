@@ -58,16 +58,20 @@ a.nav-item.is-tab:hover{border-bottom: 2px solid #f60;}
        /*新加预约单*/
   .reservation .el-checkbox+.el-checkbox{margin-left:0; margin: 0 2px;}
 
-
+/*服务开单---------------------------------------*/
+.se_bg_1{background:#dcdcdc; }
+.se_tab .el-tabs--border-card>.el-tabs__header{background-color:#78c800; }
+.se_tab .el-tabs__item{color: white;}
+.se_tab .el-tabs__item.is-active{color: #f60; font-weight: bold;}
 
 /*服务记录------------------------------*/
         /*搜索*/
-.serviceBilling .el-select,.serviceBilling .el-input{width:116px; margin: 0 0 0 5px;}
-.serviceBilling .search_bg .el-date-editor--daterange.el-input{width: 260px;}
+.serviceRecord .el-select,.serviceRecord .el-input{width:116px; margin: 0 0 0 5px;}
+.serviceRecord .search_bg .el-date-editor--daterange.el-input{width: 260px;}
 .s_many .el-input,.s_many .el-select{width: 260px;}
 .s_many .el-select__tags{max-width:260px!important;}
-.serviceBilling .search_bg .column{padding: .75rem 0 .75rem .75rem;}
-.serviceBilling .search_bg p{margin: 10px 0 0 0;}
+.serviceRecord .search_bg .column{padding: .75rem 0 .75rem .75rem;}
+.serviceRecord .search_bg p{margin: 10px 0 0 0;}
 .s_search_but{width: 4rem;
     height: 5rem;
     background: #f60;
@@ -77,8 +81,8 @@ a.nav-item.is-tab:hover{border-bottom: 2px solid #f60;}
 
 
 /*分页*/
-.page{background: #1e1e1e; position: fixed; bottom: 3rem; color: white; width: 100%; text-align: center;}
-.page .el-pagination{margin: 10px 0 0 0;}
+.page{background: #1e1e1e; position: fixed; bottom: 0rem; color: white; width: 100%; text-align: center;}
+.page .el-pagination{margin: 10px 0 ;}
 .page .number{ border-radius: 0; margin: 0 3px;}
 .page .el-pagination__total{color: white;}
 .page input,.page button{margin: 0 6px;}

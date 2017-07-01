@@ -1,5 +1,5 @@
 <template>
-    <div class="serviceBilling">
+    <div class="serviceRecord">
         <div class="columns search_bg mar_20">
             <div class="column is-4">
                 <p><span>开始时间</span>
