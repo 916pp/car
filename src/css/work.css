@@ -59,10 +59,26 @@ a.nav-item.is-tab:hover{border-bottom: 2px solid #f60;}
   .reservation .el-checkbox+.el-checkbox{margin-left:0; margin: 0 2px;}
 
 /*服务开单---------------------------------------*/
+.serviceBilling{position: relative;}
 .se_bg_1{background:#dcdcdc; }
 .se_tab .el-tabs--border-card>.el-tabs__header{background-color:#78c800; }
 .se_tab .el-tabs__item{color: white;}
 .se_tab .el-tabs__item.is-active{color: #f60; font-weight: bold;}
+.se_tab .el-select{width: 227px;}
+
+.address .el-input{width: 550px;}
+.se_label .el-form-item__label{line-height: 1.5rem; color: #1e82dd; font-size: 1.2rem; padding: 0; text-align: center;}
+.se_label.columns:not(:last-child){margin-bottom: 0;}
+.se_label .column{padding: .75rem .75rem 0;}
+.se_submit .column{text-align: center;    padding: 0 0 .75rem;}
+.se_submitBut{width: 15rem;
+    background: #f60;
+    color: white;
+    }
+.se_submitBut span{display: inline-block; padding: 0 20px;}
+
+          /*底部按钮*/
+.se_bottom{position: fixed; width: 92%; bottom: 0px;  }
 
 /*服务记录------------------------------*/
         /*搜索*/
@@ -81,7 +97,7 @@ a.nav-item.is-tab:hover{border-bottom: 2px solid #f60;}
 
 
 /*分页*/
-.page{background: #1e1e1e; position: fixed; bottom: 0rem; color: white; width: 100%; text-align: center;}
+.page{background: #1e1e1e; position: fixed; bottom: 0rem; color: white; width: 92%; text-align: center;}
 .page .el-pagination{margin: 10px 0 ;}
 .page .number{ border-radius: 0; margin: 0 3px;}
 .page .el-pagination__total{color: white;}
@@ -92,6 +108,9 @@ a.nav-item.is-tab:hover{border-bottom: 2px solid #f60;}
 /*-------------*/
 .mar_tl20{margin: 20px 0 0 20px;}
 .mar_20{margin: 20px;}
+.mar_t20l10{margin: 20px 10px 0;}
+.mar_rl10{margin: 0 10px;}
+.mar_brl10{margin: 0 10px 10px;}
 
 .pad_l0{padding:.75rem .75rem .75rem 0;}
 
