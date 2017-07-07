@@ -122,7 +122,7 @@
             
             </div>
         </div>
-        <div class="columns mar_t20l10 search_bg se_label">
+        <div class="columns mar_rl10 search_bg se_label">
             <div class="column">
                 <el-form-item label="故障描述" :label-width="textareaLabelWidth">
                     <el-input v-model="client.error" type='textarea'></el-input>

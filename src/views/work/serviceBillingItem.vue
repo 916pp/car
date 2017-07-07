@@ -1,13 +1,59 @@
 <template>
-    <div class="serviceBillingItem">
-        vvv
+    <div class="serviceBilling mar_t20l10">
+        <h2>服务项目</h2>
+        <el-form :model="service" :rules="rules" ref="service">
+        <div class="columns is-marginless">
+            <el-table :data="serviceTable" border class="table">
+                <el-table-column label="编码" width="50">
+                    <template scope="scope">
+                        <span>{{scope.row.id}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="名称" width="150">
+                    <template scope='scope'>
+                        <span>{{scope.row.name}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="项目类型" prop="type" width="80"></el-table-column>
+                <el-table-column label="收费类型" prop="toll" width="80"></el-table-column>
+                <el-table-column label="单价"  width="80" >
+                    <template scope="scope">
+                        <el-input v-model="scope.row.price"></el-input>
+                    </template>
+                </el-table-column>
+                <el-table-column label="数量" width="60">
+                    <template scope="scope">
+                        <el-input v-model="scope.row.number"></el-input>
+                    </template>
+                </el-table-column>
+                <el-table-column label="折扣" width="100">
+                    <template scope="scope">
+                        <el-input v-model="scope.row.discounted"></el-input>%
+                    </template>
+                </el-table-column>
+                <el-table-column label="金额" width="100">
+                    <template scope="scope">
+                        <el-input v-model="scope.row.money"></el-input>
+                    </template>
+                </el-table-column>
+                <el-table-column label="施工员" width="130">
+                    <template scope="scope">
+                        <el-select v-model="scope.row.worker" placeholder="请选择">
+                            <el-option v-for="item in workerOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                        </el-select>
+                    </template>
+                </el-table-column>
+            </el-table>
+            
+        </div>
+        </el-form>
     </div>
 </template>
 <script>
      import Vue from 'vue';
-   import {Select,Option,DatePicker,Input,MessageBox, Message,Tabs,TabPane,Form,FormItem,Col,CheckboxGroup,Checkbox} from 'element-ui';
-   Vue.component(CheckboxGroup.name, CheckboxGroup);
-   Vue.component(Checkbox.name, Checkbox);
+   import {Select,Option,DatePicker,Input,MessageBox, Message,Tabs,TabPane,Form,FormItem,Col,TableColumn,Table} from 'element-ui';
+   Vue.component(TableColumn.name, TableColumn);
+   Vue.component(Table.name, Table);
    Vue.component(MessageBox.name, MessageBox);
    Vue.component(Message.name, Message);
    Vue.component(Select.name, Select);
@@ -28,10 +74,8 @@
         data: function () {
             return {
                 test:[{'ee':'11'},{'rrt':'ddf','gg':'rr'}],
-               client:{
-                    name:'',phone:'',carNumber:'',consultant:'',nature:'正常服务',repair:'',repairNum:'',remind:[],source:'直接到店',address:'',
-                    startTime:'',predictTime:'',finishTime:'',type:[],
-                    error:'',service:'',lecture:'',mandate:'',Remarks:''
+               service:{
+                    name:'',phone:'',carNumber:'',consultant:'',nature:'正常服务',repair:'',repairNum:''
                 },
                 rules:{
                     name:[
@@ -42,17 +86,16 @@
                         {required:true,message:'请输入手机号码',trigger:'blur'},
                         {min:11,max:11,message:'请输入11位正确的手机号码',trigger:'blur'},
                         {type:'number',message:'只能输入数字',trigger:'blur'}
-                    ],
-                    carNumber:[
-                        {required:true,message:'请输入车牌号',trigger:'blur'},
-                        {min:7,max:7,message:'请输入正确的信息',trigger:'blur'}
-                    ],
-                    startTime:[
-                        { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
                     ]
                 },
-                formLabelWidth:'120px',
-                textareaLabelWidth:'50px',
+                serviceTable:[
+                    {id:'1',name:'qqq',type:'百姓',price:'90',number:'2',discounted:'0',money:'900'},
+                    {id:'2',name:'ffqqq',type:'ww百姓',price:'77',number:'12',discounted:'0',money:'879'},
+
+                ],
+                workerOptions:[
+                    {label:'d',value:'ddd3'}
+                ],
                 consultanOptions:[
                     {value:'1',label:'李'},
                     {value:'2',label:'张三'}
