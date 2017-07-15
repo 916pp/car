@@ -29,7 +29,7 @@
                         </div>
                          <div class="columns is-marginless">
                             <div class="column is-paddingless is-4">
-                                <el-form-item label="服务顾问:" :label-width="formLabelWidth">
+                                <el-form-item label="服务顾问:" :label-width="formLabelWidth" prop="consultant">
                                      <el-select v-model="client.consultant"  >
                                         <el-option v-for="item in consultanOptions" :key="item.value" :label="item.label" :value="item.value">
                                         </el-option>
@@ -37,7 +37,7 @@
                                 </el-form-item>
                             </div>
                             <div class="column is-paddingless">
-                                <el-form-item label="服务性质:" :label-width="formLabelWidth" >
+                                <el-form-item label="服务性质:" :label-width="formLabelWidth" prop="nature">
                                     <el-select v-model="client.nature"  >
                                         <el-option v-for="item in natureOptions" :key="item.value" :label="item.label" :value="item.value">
                                         </el-option>
@@ -83,7 +83,7 @@
                         </div>
                         <div class="columns is-marginless">
                             <div class="column is-paddingless">
-                                <el-form-item label="开始时间：" :label-width="formLabelWidth" prop="startTime">
+                                <el-form-item label="开始时间：" :label-width="formLabelWidth">
                                     <el-date-picker v-model="client.startTime" type="datetime" placeholder='请选择日期和时间'></el-date-picker>
                                 </el-form-item>
                             </div>
@@ -212,8 +212,11 @@
                         {required:true,message:'请输入车牌号',trigger:'blur'},
                         {min:7,max:7,message:'请输入正确的信息',trigger:'blur'}
                     ],
-                    startTime:[
-                        { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+                    consultant:[
+                        { required: true, message: '请选择服务顾问', trigger: 'change' }
+                    ],
+                    nature:[
+                        { required: true, message: '请选择服务性质', trigger: 'change' }
                     ]
                 },
                 formLabelWidth:'120px',
