@@ -3,26 +3,97 @@
         <h2>服务项目</h2>
         <el-form :model="service" :rules="rules" ref="service">
         <div class="columns is-marginless">
-            <el-table :data="serviceTable" border class="table">
-                <el-table-column label="编码" width="40" >
+            <el-table :data="serviceTable" border :row-key="getRowKey" :expand-row-keys="expands">
+                <el-table-column type="expand" width="20" :label-class-name="aaa">
+                    <template scope='Parents'>
+                        <el-table :data="Parents.row.children" :show-header="false">
+                                <el-table-column width="34" >
+                                    <template scope="scope">
+                                        <span>{{(Parents.$index+1)+'.'+(scope.$index+1)}}</span>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column width="290" class="textL">
+                                    <template scope='scope'>
+                                        <span>{{scope.row.name}}</span>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column  prop="type" width="80"></el-table-column>
+                                <el-table-column prop="toll" width="70"></el-table-column>
+                                <el-table-column   width="60" >
+                                    <template scope="scope">
+                                        <el-input v-model="scope.row.price" v-show="scope.row.showPrice"></el-input>
+                                        <span v-show="!scope.row.showPrice">{{scope.row.price}}</span>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column  width="35">
+                                    <template scope="scope">
+                                        <el-input v-model="scope.row.number" v-show="scope.row.showNumber"></el-input>
+                                        <span v-show="!scope.row.showNumber">{{scope.row.number}}</span>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column  width="80">
+                                    <template scope="scope">
+                                        <el-input v-model="scope.row.discounted" v-show="scope.row.showDiscounted">
+                                            <template slot="append">%</template>
+                                        </el-input>
+                                        <span v-show="!scope.row.showDiscounted">{{scope.row.discounted}}</span>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column  width="60">
+                                    <template scope="scope">
+                                        <el-input v-model="scope.row.money" v-show="scope.row.showMoney"></el-input>
+                                        <span v-show="!scope.row.showMoney">{{scope.row.money}}</span>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column  width="95">
+                                    <template scope="scope">
+                                        <el-select v-model="scope.row.worker" multiple placeholder="请选择" v-show="scope.row.showWorker">
+                                            <el-option-group v-for="group in workerOptions" :key="group.label" :label="group.label">
+                                                <el-option v-for="item in group.options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                                            </el-option-group>
+                                        </el-select>
+                                        <span v-show="!scope.row.showWorker">{{scope.row.workerLabel}}</span>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column  width="95">
+                                    <template scope="scope">
+                                        <el-select v-model="scope.row.sales" placeholder="请选择" v-show="scope.row.showSales">
+                                            <el-option-group v-for="group in workerOptions" :key="group.label" :label="group.label">
+                                                <el-option v-for="item in group.options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                                            </el-option-group>
+                                        </el-select>
+                                        <span v-show="!scope.row.showSales">{{scope.row.salesLabel}}</span>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column  width="130">
+                                    <template scope="scope">
+                                        <a class="button" @click="saveBut(scope.$index,scope.row)" v-show="scope.row.showButton">确定</a>
+                                        <a class="button" @click="updateBut(scope.$index,scope.row)" v-show="!scope.row.showButton">修改</a>
+                                        <a class="button" @click="deleteRow(scope.$index,Parents.row.children)">删除</a>
+                                    </template>
+                                </el-table-column>
+                        </el-table>
+                    </template>                   
+                </el-table-column>
+                <el-table-column label="编码" width="35" type="index" :label-class-name="aaa">
                     <template scope="scope">
-                        <span>{{scope.row.id}}</span>
+                        <span>{{scope.$index+1}}</span>
                     </template>
                 </el-table-column>
                 <el-table-column label="名称" width="290" class="textL">
                     <template scope='scope'>
-                        <span>{{scope.row.name}}</span><a class="button" @click="addAccessories(scope.$index,serviceTable)" v-show="scope.row.showAccessories"><i class="icon iconfont icon-icon19"></i>配件</a>
+                        <span>{{scope.row.name}}</span><a class="button" @click="addAccessories(scope.$index,serviceTable)" ><i class="icon iconfont icon-icon19"></i>配件</a>
                     </template>
                 </el-table-column>
                 <el-table-column label="项目类型" prop="type" width="80"></el-table-column>
-                <el-table-column label="收费类型" prop="toll" width="80"></el-table-column>
+                <el-table-column label="收费类型" prop="toll" width="70"></el-table-column>
                 <el-table-column label="单价"  width="60" >
                     <template scope="scope">
                         <el-input v-model="scope.row.price" v-show="scope.row.showPrice"></el-input>
                         <span v-show="!scope.row.showPrice">{{scope.row.price}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column label="数量" width="40">
+                <el-table-column label="数量" width="35">
                     <template scope="scope">
                         <el-input v-model="scope.row.number" v-show="scope.row.showNumber"></el-input>
                         <span v-show="!scope.row.showNumber">{{scope.row.number}}</span>
@@ -42,9 +113,9 @@
                         <span v-show="!scope.row.showMoney">{{scope.row.money}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column label="施工员" width="100">
+                <el-table-column label="施工员" width="95">
                     <template scope="scope">
-                        <el-select v-model="scope.row.worker" placeholder="请选择" v-show="scope.row.showWorker">
+                        <el-select v-model="scope.row.worker" multiple  placeholder="请选择" v-show="scope.row.showWorker">
                             <el-option-group v-for="group in workerOptions" :key="group.label" :label="group.label">
                                 <el-option v-for="item in group.options" :key="item.value" :label="item.label" :value="item.value"></el-option>
                             </el-option-group>
@@ -52,9 +123,9 @@
                         <span v-show="!scope.row.showWorker">{{scope.row.workerLabel}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column label="销售" width="100">
+                <el-table-column label="销售" width="95">
                     <template scope="scope">
-                        <el-select v-model="scope.row.sales" placeholder="请选择" v-show="scope.row.showSales">
+                        <el-select v-model="scope.row.sales"  placeholder="请选择" v-show="scope.row.showSales">
                             <el-option-group v-for="group in workerOptions" :key="group.label" :label="group.label">
                                 <el-option v-for="item in group.options" :key="item.value" :label="item.label" :value="item.value"></el-option>
                             </el-option-group>
@@ -66,11 +137,28 @@
                     <template scope="scope">
                         <a class="button" @click="saveBut(scope.$index,scope.row)" v-show="scope.row.showButton">确定</a>
                         <a class="button" @click="updateBut(scope.$index,scope.row)" v-show="!scope.row.showButton">修改</a>
-                        <a class="button" @click.native.prevent="deleteRow(scope.$index,serviceTable)">删除</a>
+                        <a class="button" @click="deleteRow(scope.$index,serviceTable)">删除</a>
                     </template>
                 </el-table-column>
             </el-table>
             
+        </div>
+        <div class="columns is-marginless workerBut">
+            <div class="column">
+             <a class="button">选择工时</a><a class="button">添加工时</a>
+             </div>
+        </div>
+        <div class="columns is-marginless">
+            <div class="column is-4">
+                <el-form-item label="质检员：" prop="check">
+                <el-select v-model="total.check" placeholder="请选择" >
+                            <el-option-group v-for="group in workerOptions" :key="group.label" :label="group.label">
+                                <el-option v-for="item in group.options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                            </el-option-group>
+                </el-select>
+                </el-form-item>
+            </div>
+            <div class="column "></div>
         </div>
         </el-form>
     </div>
@@ -101,6 +189,7 @@
         },
         data: function () {
             return {
+                aaa:'aaa',
                 test:[{'ee':'11'},{'rrt':'ddf','gg':'rr'}],
                service:{
                     name:'',phone:'',carNumber:'',consultant:'',nature:'正常服务',repair:'',repairNum:''
@@ -114,15 +203,38 @@
                         {required:true,message:'请输入手机号码',trigger:'blur'},
                         {min:11,max:11,message:'请输入11位正确的手机号码',trigger:'blur'},
                         {type:'number',message:'只能输入数字',trigger:'blur'}
+                    ],
+                    check:[
+                         {required:true,message:'请输入车主姓名',trigger:'blur'},
+                        {min:2,max:35,message:'请输入正确的信息',trigger:'blur'}
                     ]
                 },
+                total:{check:'',totalMany:''},
                 serviceTable:[
-                    {id:'1',name:'大众机油格068115561B',showAccessories:false,type:'百姓',toll:'试试',
+                    {id:0,name:'大众机油格068115561B',type:'百姓',toll:'试试',
                     price:'900',showPrice:false,number:'2',showNumber:false,discounted:'0',showDiscounted:false,money:'900',showMoney:false,
-                    worker:'里么非',workerLabel:'张熙玲',showWorker:false,sales:'ddd3',salesLabel:'d',showSales:false,showButton:false},
-                    {id:'2',name:'ffqqq',showAccessories:true,type:'得到百姓',toll:'试试',
+                    worker:['里么非'],workerLabel:'张熙玲',showWorker:false,sales:'ddd3',salesLabel:'d',showSales:false,showButton:false,
+                    children:[
+                        {id:'0',name:'www',type:'百姓',toll:'试试',
+                         price:'900',showPrice:false,number:'2',showNumber:false,discounted:'0',showDiscounted:false,money:'900',showMoney:false,
+                         worker:['里么非'],workerLabel:'张熙玲',showWorker:false,sales:'ddd3',salesLabel:'d',showSales:false,showButton:false},
+                        {id:'1',name:'e33',type:'百姓',toll:'试试',
+                        price:'900',showPrice:false,number:'2',showNumber:false,discounted:'0',showDiscounted:false,money:'900',showMoney:false,
+                        worker:['里么非'],workerLabel:'张熙玲',showWorker:false,sales:'ddd3',salesLabel:'d',showSales:false,showButton:false}
+                        ]
+                    },
+                    {id:1,name:'ffqqq',type:'得到百姓',toll:'试试',
                     price:'60',showPrice:true,number:'12',showNumber:true,discounted:'0',showDiscounted:true,money:'340',showMoney:true,
-                    worker:'',showWorker:true,sales:'',showSales:true,showButton:true},
+                    worker:'',showWorker:true,sales:'',showSales:true,showButton:true,
+                    children:[
+                        {id:'21',name:'www',type:'百姓',toll:'试试',
+                         price:'900',showPrice:false,number:'2',showNumber:false,discounted:'0',showDiscounted:false,money:'900',showMoney:false,
+                         worker:['里么非'],workerLabel:'张熙玲',showWorker:false,sales:'ddd3',salesLabel:'d',showSales:false,showButton:false},
+                        {id:'2.2',name:'e33',type:'百姓',toll:'试试',
+                        price:'900',showPrice:false,number:'2',showNumber:false,discounted:'0',showDiscounted:false,money:'900',showMoney:false,
+                        worker:['里么非'],workerLabel:'张熙玲',showWorker:false,sales:'ddd3',salesLabel:'d',showSales:false,showButton:false}
+                        ]
+                    }
 
                 ],
                 workerOptions:[
@@ -147,13 +259,29 @@
                     {value:'3',label:'客户介绍'},
                     {value:'4',label:'商家联盟'},
                     {value:'5',label:'其他'}
-                ]
+                ],
+                getRowKey(row){
+                      return row.id
+                },
+                expands:[],
+                arrNumber:0
             }
+            
         },
+         mounted() {
+        // 在这里你想初始化的时候展开哪一行都可以了
+        this.expands.push(this.serviceTable[0].id);
+    },
         methods:{
         deleteRow(index,rows){
-               console.log(index);
+               console.log(rows[index].id);
+               //let id=rows['id'];
+              /*  if(index==0 && rows.children==undefined && this.serviceTable[id]['children'].length==0)
+                {
+                    this.expands.splice(rows.id,1);
+                } */
                 rows.splice(index,1);
+                 //console.log(this.expands);       
             },
             saveBut(index,row){
                 //console.log(row.price);
@@ -164,7 +292,47 @@
                 row.showPrice=false;
                 row.showSales=false;
                 row.showWorker=false;
+                let workerOptions=this.workerOptions,worker=row.worker;
+                
+                let workerOptionsLeg=workerOptions.length;
+                let arr=[];
+                let workerLeg=worker.length;
+                let salesResult='';
+                
+                for(let i=0;i<workerOptionsLeg;i++)
+                {
+                    let optionleg=workerOptions[i].options.length;
+                    for(let y=0;y<optionleg;y++)
+                    {
+                        for(let n=0;n<workerLeg;n++)
+                        {
+                        if(worker[n]==workerOptions[i].options[y].value)
+                        {
+                            arr.push(workerOptions[i].options[y].label);
+                        }
+                        }
+                    }
 
+                }
+
+                 
+                for(let i=0;i<workerOptionsLeg;i++)
+                {
+                    let optionleg=workerOptions[i].options.length;
+                    for(let y=0;y<optionleg;y++)
+                    {
+                        if(row.sales==workerOptions[i].options[y].value)
+                        {
+                            salesResult=workerOptions[i].options[y].label;
+                        }
+                    }
+                }
+                //console.log(arr);
+                row.workerLabel=arr.join(',');
+
+                
+
+                row.salesLabel=salesResult;
             },
             updateBut(index,row){
                 row.showButton=true;
@@ -174,17 +342,80 @@
                 row.showPrice=true;
                 row.showSales=true;
                 row.showWorker=true;
+
+                let workerOptions=this.workerOptions,workerLabel=row.workerLabel.split(',');
+                                            
+                let workerOptionsLeg=workerOptions.length;
+                let arr=[];
+                let workerLabelLeg=workerLabel.length;
+                let salesResult='';
+                for(let i=0;i<workerOptionsLeg;i++)
+                {
+                    let optionleg=workerOptions[i].options.length;
+                    for(let y=0;y<optionleg;y++)
+                    {
+                        for(let n=0;n<workerLabelLeg;n++)
+                        {
+                        if(workerLabel[n]==workerOptions[i].options[y].label)
+                        {
+                            arr.push(workerOptions[i].options[y].value);
+                        }
+                        }
+                    }
+
+                }
+
+                 for(let i=0;i<workerOptionsLeg;i++)
+                {
+                    let optionleg=workerOptions[i].options.length;
+                    for(let y=0;y<optionleg;y++)
+                    {
+                        if(row.salesLabel==workerOptions[i].options[y].label)
+                        {
+                            salesResult=workerOptions[i].options[y].value;
+                        }
+                    }
+                }
+
+               console.log(this.selectArr());
+                row.worker=arr;
+                row.sales=salesResult;
+               
+                //row.worker=arr;
+                
             },
             addAccessories(index,rows){
-                console.log(index);
-                let item= {id:'3',name:'b',type:'ee',toll:'试试',
+                
+                let item= {id:'0',name:'b',type:'ee',toll:'试试',
                     price:'60',showPrice:true,number:'12',showNumber:true,discounted:'0',showDiscounted:true,money:'340',showMoney:true,
                     worker:'',showWorker:true,sales:'',showSales:true,showButton:true}
-                rows.splice(index+1,0,item);
-                console.log(rows[0].id);                console.log(rows[1].id);                console.log(rows[2].id);
+               
 
+                rows.splice(index+1,0,item);
+                       
+
+
+            },
+            selectArr()
+            {
+                let workerOptions=this.workerOptions;
+                                            
+                let workerOptionsLeg=workerOptions.length;
+                let arr=[];
+                for(let i=0;i<workerOptionsLeg;i++)
+                {
+                    let optionleg=workerOptions[i].options.length;
+                    for(let y=0;y<optionleg;y++)
+                    {
+                       arr.push(workerOptions[i].options[y]);
+                    }
+
+                }
+
+                return arr;
 
             }
+           
         }
     }
 </script>

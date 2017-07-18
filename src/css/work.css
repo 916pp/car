@@ -83,11 +83,17 @@ a.nav-item.is-tab:hover{border-bottom: 2px solid #f60;}
 .serviceBilling .table td, .table th{padding: .2rem .2rem;}
 .serviceBilling .el-input__inner{padding: 0 2px; text-align: center;}
 .serviceBilling .cell{text-align: center;}
-.el-table_1_column_2  span{text-align: left; display: inline-block; width: 80%;}
-.el-table_1_column_2  .button{padding: .2rem; border-radius: 15px; -webkit-border-radius:15px; -moz-border-radius:15px;background: #839dd7; color: white;}
+.el-table_1_column_3  span{text-align: left; display: inline-block; width: 80%;line-height: 39px;}
+.el-table_1_column_3  .button{padding: .2rem; border-radius: 15px; -webkit-border-radius:15px; -moz-border-radius:15px;background: #839dd7; color: white;}
 .serviceBilling .icon-icon19{font-weight:bolder; color:#ffb400; }
+
+.serviceBilling .el-table__expanded-cell{padding: 0 0 0 19px;}
+.aaa{background: red; color: white;}
+.workerBut{text-align: center; padding: 0px 10px; background:#f4f8fb; }
+.workerBut .button{margin: 0 15px; background:#1e82dd; color: white;}
           /*底部按钮*/
 .se_bottom{position: fixed; width: 92%; bottom: 0px;  }
+
 
 /*服务记录------------------------------*/
         /*搜索*/
