@@ -91,7 +91,11 @@ a.nav-item.is-tab:hover{border-bottom: 2px solid #f60;}
 .aaa{background: red; color: white;}
 .workerBut{text-align: center; padding: 0px 10px; background:#f4f8fb; }
 .workerBut .button{margin: 0 15px; background:#1e82dd; color: white;}
-          /*底部按钮*/
+.serviceBilling .total{display: inline-block; width: 30%; text-align: center; font-weight: bold;}
+.serviceBilling .color1{color:#f60; }
+.serviceBilling .border1{border: 1px solid #1e82dd;}
+
+        /*底部按钮*/
 .se_bottom{position: fixed; width: 92%; bottom: 0px;  }
 
 

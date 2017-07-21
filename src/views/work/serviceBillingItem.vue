@@ -21,19 +21,19 @@
                                 <el-table-column prop="toll" width="70"></el-table-column>
                                 <el-table-column   width="60" >
                                     <template scope="scope">
-                                        <el-input v-model="scope.row.price" v-show="scope.row.showPrice"></el-input>
+                                        <el-input v-model="scope.row.price" v-show="scope.row.showPrice" @blur="updateInput('other',scope.row)"></el-input>
                                         <span v-show="!scope.row.showPrice">{{scope.row.price}}</span>
                                     </template>
                                 </el-table-column>
                                 <el-table-column  width="35">
                                     <template scope="scope">
-                                        <el-input v-model="scope.row.number" v-show="scope.row.showNumber"></el-input>
+                                        <el-input v-model="scope.row.number" v-show="scope.row.showNumber" @blur="updateInput('other',scope.row)"></el-input>
                                         <span v-show="!scope.row.showNumber">{{scope.row.number}}</span>
                                     </template>
                                 </el-table-column>
                                 <el-table-column  width="80">
                                     <template scope="scope">
-                                        <el-input v-model="scope.row.discounted" v-show="scope.row.showDiscounted">
+                                        <el-input v-model="scope.row.discounted" v-show="scope.row.showDiscounted" @blur="updateInput('other',scope.row)">
                                             <template slot="append">%</template>
                                         </el-input>
                                         <span v-show="!scope.row.showDiscounted">{{scope.row.discounted}}</span>
@@ -41,8 +41,8 @@
                                 </el-table-column>
                                 <el-table-column  width="60">
                                     <template scope="scope">
-                                        <el-input v-model="scope.row.money" v-show="scope.row.showMoney"></el-input>
-                                        <span v-show="!scope.row.showMoney">{{scope.row.money}}</span>
+                                       
+                                        <span>{{scope.row.money}}</span>
                                     </template>
                                 </el-table-column>
                                 <el-table-column  width="95">
@@ -89,19 +89,19 @@
                 <el-table-column label="收费类型" prop="toll" width="70"></el-table-column>
                 <el-table-column label="单价"  width="60" >
                     <template scope="scope">
-                        <el-input v-model="scope.row.price" v-show="scope.row.showPrice"></el-input>
+                        <el-input v-model="scope.row.price" v-show="scope.row.showPrice" @blur="updateInput('time',scope.row)"></el-input>
                         <span v-show="!scope.row.showPrice">{{scope.row.price}}</span>
                     </template>
                 </el-table-column>
                 <el-table-column label="数量" width="35">
                     <template scope="scope">
-                        <el-input v-model="scope.row.number" v-show="scope.row.showNumber"></el-input>
+                        <el-input v-model="scope.row.number" v-show="scope.row.showNumber" @blur="updateInput('time',scope.row)"></el-input>
                         <span v-show="!scope.row.showNumber">{{scope.row.number}}</span>
                     </template>
                 </el-table-column>
                 <el-table-column label="折扣" width="80">
                     <template scope="scope">
-                        <el-input v-model="scope.row.discounted" v-show="scope.row.showDiscounted">
+                        <el-input v-model="scope.row.discounted" v-show="scope.row.showDiscounted" @blur="updateInput('time',scope.row)">
                             <template slot="append">%</template>
                         </el-input>
                         <span v-show="!scope.row.showDiscounted">{{scope.row.discounted}}</span>
@@ -109,8 +109,8 @@
                 </el-table-column>
                 <el-table-column label="金额" width="60">
                     <template scope="scope">
-                        <el-input v-model="scope.row.money" v-show="scope.row.showMoney"></el-input>
-                        <span v-show="!scope.row.showMoney">{{scope.row.money}}</span>
+                       
+                        <span>{{scope.row.money}}</span>
                     </template>
                 </el-table-column>
                 <el-table-column label="施工员" width="95">
@@ -145,7 +145,7 @@
         </div>
         <div class="columns is-marginless workerBut">
             <div class="column">
-             <a class="button">选择工时</a><a class="button">添加工时</a>
+             <a class="button" @click="selectVisible=true">选择工时</a><a class="button">添加工时</a>
              </div>
         </div>
         <div class="columns is-marginless">
@@ -158,15 +158,46 @@
                 </el-select>
                 </el-form-item>
             </div>
-            <div class="column "></div>
+            <div class="column ">
+            <span class="total">总工时费：{{total.time}}</span>
+            <span class="total">总配件费：{{total.accessories}}</span>
+            <span class="total">总费用：<b class="color1">{{total.money}}</b></span>
+            </div>
         </div>
         </el-form>
+
+        <el-dialog title="选择工时" :visible.sync="selectVisible" size="large">
+            <div class="columns is-marginless">
+                <div class="column is-9">
+                    <div class="columns is-marginless border1">
+                        <div class="column is-3">
+                            <p>
+                                <el-input placeholder="请输入搜索名称" icon="search" v-model="searchName" :on-icon-click="handleIconClick"></el-input>
+                            </p>
+                            <el-menu default-active="1" class="el-menu-vertical-demo" v-for="item in workingHours">
+                                <el-menu-item index={{item.type}} @click="aa">{{item.name}}</el-menu-item>
+                               
+                            </el-menu>
+                        </div>
+                        <div class="column">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="column border1">
+
+                </div>
+            </div>
+            <div slot="footer" class="dialog-footer">
+                <a class="button" @click="selectVisible=false">取消</a><a class="button" @click="saveSelectVisible">确定</a>
+            </div>
+        </el-dialog>
     </div>
 </template>
 <script>
      import Vue from 'vue';
      require('../../css/iconfont.css');
-   import {Select,Option,OptionGroup,DatePicker,Input,MessageBox, Message,Tabs,TabPane,Form,FormItem,Col,TableColumn,Table} from 'element-ui';
+   import {Select,Option,OptionGroup,DatePicker,Input,MessageBox, Message,Tabs,TabPane,Form,FormItem,Col,TableColumn,Table,Dialog,Menu,MenuItem} from 'element-ui';
    Vue.component(TableColumn.name, TableColumn);
    Vue.component(Table.name, Table);
    Vue.component(MessageBox.name, MessageBox);
@@ -181,6 +212,9 @@
    Vue.component(Col.name, Col);
    Vue.component(Form.name, Form);
    Vue.component(FormItem.name, FormItem);
+   Vue.component(Dialog.name, Dialog);
+   Vue.component(Menu.name, Menu);
+   Vue.component(MenuItem.name, MenuItem);
     export default{
         mounted: function() {
             window.eventBus.$on('test', func => {
@@ -209,17 +243,17 @@
                         {min:2,max:35,message:'请输入正确的信息',trigger:'blur'}
                     ]
                 },
-                total:{check:'',totalMany:''},
+                total:{check:'',time:'',accessories:'',money:''},
                 serviceTable:[
-                    {id:0,name:'大众机油格068115561B',type:'百姓',toll:'试试',
-                    price:'900',showPrice:false,number:'2',showNumber:false,discounted:'0',showDiscounted:false,money:'900',showMoney:false,
+                    {id:'0',name:'大众机油格068115561B',type:'百姓',toll:'试试',
+                    price:'900',showPrice:false,number:'2',showNumber:false,discounted:'0',showDiscounted:false,money:'900', 
                     worker:['里么非'],workerLabel:'张熙玲',showWorker:false,sales:'ddd3',salesLabel:'d',showSales:false,showButton:false,
                     children:[
                         {id:'0',name:'www',type:'百姓',toll:'试试',
-                         price:'900',showPrice:false,number:'2',showNumber:false,discounted:'0',showDiscounted:false,money:'900',showMoney:false,
+                         price:'900',showPrice:false,number:'2',showNumber:false,discounted:'0',showDiscounted:false,money:'900', 
                          worker:['里么非'],workerLabel:'张熙玲',showWorker:false,sales:'ddd3',salesLabel:'d',showSales:false,showButton:false},
-                        {id:'1',name:'e33',type:'百姓',toll:'试试',
-                        price:'900',showPrice:false,number:'2',showNumber:false,discounted:'0',showDiscounted:false,money:'900',showMoney:false,
+                        {id:'0',name:'e33',type:'百姓',toll:'试试',
+                        price:'900',showPrice:false,number:'2',showNumber:false,discounted:'0',showDiscounted:false,money:'900', 
                         worker:['里么非'],workerLabel:'张熙玲',showWorker:false,sales:'ddd3',salesLabel:'d',showSales:false,showButton:false}
                         ]
                     },
@@ -228,10 +262,10 @@
                     worker:'',showWorker:true,sales:'',showSales:true,showButton:true,
                     children:[
                         {id:'21',name:'www',type:'百姓',toll:'试试',
-                         price:'900',showPrice:false,number:'2',showNumber:false,discounted:'0',showDiscounted:false,money:'900',showMoney:false,
+                         price:'900',showPrice:false,number:'2',showNumber:false,discounted:'0',showDiscounted:false,money:'900', 
                          worker:['里么非'],workerLabel:'张熙玲',showWorker:false,sales:'ddd3',salesLabel:'d',showSales:false,showButton:false},
                         {id:'2.2',name:'e33',type:'百姓',toll:'试试',
-                        price:'900',showPrice:false,number:'2',showNumber:false,discounted:'0',showDiscounted:false,money:'900',showMoney:false,
+                        price:'900',showPrice:false,number:'2',showNumber:false,discounted:'0',showDiscounted:false,money:'900', 
                         worker:['里么非'],workerLabel:'张熙玲',showWorker:false,sales:'ddd3',salesLabel:'d',showSales:false,showButton:false}
                         ]
                     }
@@ -264,7 +298,11 @@
                       return row.id
                 },
                 expands:[],
-                arrNumber:0
+                arrNumber:0,
+                selectVisible:false,
+                workingHours:[{name:'保养',type:'1'},{name:'洗车',type:'2'}],
+                resultHours:[],
+                searchName:''                
             }
             
         },
@@ -274,14 +312,18 @@
     },
         methods:{
         deleteRow(index,rows){
-               console.log(rows[index].id);
+               //console.log(rows[index].id);
                //let id=rows['id'];
-              /*  if(index==0 && rows.children==undefined && this.serviceTable[id]['children'].length==0)
+               console.log(!rows.children+'+++');
+               console.log(this.serviceTable[rows[index].id]['children'].length+'===');
+               console.log(index+'--');
+                if(index==0 && !rows.children && this.serviceTable[rows[index].id]['children'].length==1)
                 {
+                    console.log(index+'--');
                     this.expands.splice(rows.id,1);
-                } */
+                } 
                 rows.splice(index,1);
-                 //console.log(this.expands);       
+                 console.log(this.expands.length);       
             },
             saveBut(index,row){
                 //console.log(row.price);
@@ -292,41 +334,37 @@
                 row.showPrice=false;
                 row.showSales=false;
                 row.showWorker=false;
-                let workerOptions=this.workerOptions,worker=row.worker;
-                
-                let workerOptionsLeg=workerOptions.length;
+                let workerOptionsArr=this.selectArr();
+                let arrLength=workerOptionsArr.length;
+                let worker=row.worker;
+               
                 let arr=[];
                 let workerLeg=worker.length;
                 let salesResult='';
                 
-                for(let i=0;i<workerOptionsLeg;i++)
+                for(let i=0;i<arrLength;i++)
                 {
-                    let optionleg=workerOptions[i].options.length;
-                    for(let y=0;y<optionleg;y++)
-                    {
+                   
                         for(let n=0;n<workerLeg;n++)
                         {
-                        if(worker[n]==workerOptions[i].options[y].value)
+                        if(worker[n]==workerOptionsArr[i].value)
                         {
-                            arr.push(workerOptions[i].options[y].label);
+                            arr.push(workerOptionsArr[i].label);
                         }
                         }
-                    }
+                    
 
                 }
 
                  
-                for(let i=0;i<workerOptionsLeg;i++)
+                for(let i=0;i<arrLength;i++)
                 {
-                    let optionleg=workerOptions[i].options.length;
-                    for(let y=0;y<optionleg;y++)
-                    {
-                        if(row.sales==workerOptions[i].options[y].value)
+                    
+                        if(row.sales==workerOptionsArr[i].value)
                         {
-                            salesResult=workerOptions[i].options[y].label;
+                            salesResult=workerOptionsArr[i].label;
                         }
-                    }
-                }
+                }  
                 //console.log(arr);
                 row.workerLabel=arr.join(',');
 
@@ -342,42 +380,35 @@
                 row.showPrice=true;
                 row.showSales=true;
                 row.showWorker=true;
-
-                let workerOptions=this.workerOptions,workerLabel=row.workerLabel.split(',');
-                                            
-                let workerOptionsLeg=workerOptions.length;
+                let workerOptionsArr=this.selectArr();
+                let arrLength=workerOptionsArr.length;
+                let workerLabel=row.workerLabel.split(',');
+                
                 let arr=[];
-                let workerLabelLeg=workerLabel.length;
                 let salesResult='';
-                for(let i=0;i<workerOptionsLeg;i++)
-                {
-                    let optionleg=workerOptions[i].options.length;
-                    for(let y=0;y<optionleg;y++)
-                    {
-                        for(let n=0;n<workerLabelLeg;n++)
+               
+                        for(let n=0;n<arrLength;n++)
                         {
-                        if(workerLabel[n]==workerOptions[i].options[y].label)
-                        {
-                            arr.push(workerOptions[i].options[y].value);
+                            for(let y=0,length=workerLabel.length;y<length;y++)
+                             {       if(workerLabel[y]==workerOptionsArr[n].label)
+                                    {
+                                        arr.push(workerOptionsArr[n].value);
+                                    }
+                             }
                         }
-                        }
-                    }
+                
 
+                for(let i=0;i<arrLength;i++)
+                {
+                   
+                        if(row.salesLabel==workerOptionsArr[i].label)
+                        {
+                            salesResult=workerOptionsArr[i].value;
+                        }
+                   
                 }
 
-                 for(let i=0;i<workerOptionsLeg;i++)
-                {
-                    let optionleg=workerOptions[i].options.length;
-                    for(let y=0;y<optionleg;y++)
-                    {
-                        if(row.salesLabel==workerOptions[i].options[y].label)
-                        {
-                            salesResult=workerOptions[i].options[y].value;
-                        }
-                    }
-                }
-
-               console.log(this.selectArr());
+              // console.log(this.selectArr());
                 row.worker=arr;
                 row.sales=salesResult;
                
@@ -413,6 +444,22 @@
                 }
 
                 return arr;
+
+            },
+            updateInput(type,row){
+
+              row.money=row.price*row.discounted*0.01*row.number;
+              if(type=='time')
+              {
+                  this.total.time+= row.money;
+              }else{
+                  this.total.accessories+=row.money;
+              }
+
+              this.total.money+=row.money;
+              console.log('-----'+row.money)
+            },
+            handleIconClick(){
 
             }
            
