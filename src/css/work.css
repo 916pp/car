@@ -94,6 +94,9 @@ a.nav-item.is-tab:hover{border-bottom: 2px solid #f60;}
 .serviceBilling .total{display: inline-block; width: 30%; text-align: center; font-weight: bold;}
 .serviceBilling .color1{color:#f60; }
 .serviceBilling .border1{border: 1px solid #1e82dd;}
+.serviceBilling .el-menu-item.is-active{color: black;}
+.serviceBilling .click-active{color:#1e82dd !important; font-weight: bold; }
+
 
         /*底部按钮*/
 .se_bottom{position: fixed; width: 92%; bottom: 0px;  }

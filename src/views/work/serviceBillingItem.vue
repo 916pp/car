@@ -12,7 +12,7 @@
                                         <span>{{(Parents.$index+1)+'.'+(scope.$index+1)}}</span>
                                     </template>
                                 </el-table-column>
-                                <el-table-column width="290" class="textL">
+                                <el-table-column  class="textL">
                                     <template scope='scope'>
                                         <span>{{scope.row.name}}</span>
                                     </template>
@@ -80,7 +80,7 @@
                         <span>{{scope.$index+1}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column label="名称" width="290" class="textL">
+                <el-table-column label="名称"  class="textL">
                     <template scope='scope'>
                         <span>{{scope.row.name}}</span><a class="button" @click="addAccessories(scope.$index,serviceTable)" ><i class="icon iconfont icon-icon19"></i>配件</a>
                     </template>
@@ -170,22 +170,41 @@
             <div class="columns is-marginless">
                 <div class="column is-9">
                     <div class="columns is-marginless border1">
-                        <div class="column is-3">
+                        <div class="column is-3 has-text-centered">
                             <p>
                                 <el-input placeholder="请输入搜索名称" icon="search" v-model="searchName" :on-icon-click="handleIconClick"></el-input>
                             </p>
-                            <el-menu default-active="1" class="el-menu-vertical-demo" v-for="item in workingHours">
-                                <el-menu-item index={{item.type}} @click="aa">{{item.name}}</el-menu-item>
+                            <el-menu default-active="1" class="el-menu-vertical-demo" >
+                                
+                                <el-menu-item index=item.id  v-for="item in workingHours"
+                                :key="item.id" @click="selectAccessories(item.id)" :class="[item.id==clickWorking?'click-active':'']">{{item.name}}</el-menu-item>
                                
                             </el-menu>
                         </div>
                         <div class="column">
-
+                            <el-table :data="workingHoursData" border style="width:100%" @select-change="selectWorking">
+                                <el-table-column type="selection" width="50"></el-table-column>
+                                <el-table-column label="名称">
+                                    <template scope='scope'>{{scope.row.childName}}</template>
+                                </el-table-column>
+                                <el-table-column label="类别" width="80" prop="type">  </el-table-column>
+                                <el-table-column label="售价" width="60" >
+                                    <template scope='scope'>￥{{scope.row.price}}</template>
+                                </el-table-column>
+                            </el-table>
+                            <el-pagination @size-change="sizeChange" @current-change="currentChange" :current-page.sync="currentPage" :page-size="10"
+                            layout="total,prev,pager,next" :total="50"></el-pagination>
                         </div>
                     </div>
                 </div>
                 <div class="column border1">
-
+                    <p>您已经选这<span class="">{{resultHours.length}}</span>个工时</p>
+                    <el-table :data="resultHours" border style="width:100%" :show-header="false" v-if="resultHours.length>0">
+                        <el-table-column prop="childName"></el-table-column>
+                        <el-table-column >
+                            <template scope="scope">11{{scope.row.id}}</template>
+                        </el-table-column>
+                    </el-table>
                 </div>
             </div>
             <div slot="footer" class="dialog-footer">
@@ -197,7 +216,7 @@
 <script>
      import Vue from 'vue';
      require('../../css/iconfont.css');
-   import {Select,Option,OptionGroup,DatePicker,Input,MessageBox, Message,Tabs,TabPane,Form,FormItem,Col,TableColumn,Table,Dialog,Menu,MenuItem} from 'element-ui';
+   import {Select,Option,OptionGroup,DatePicker,Input,MessageBox, Message,Tabs,TabPane,Form,FormItem,Col,TableColumn,Table,Dialog,Menu,MenuItem,Pagination} from 'element-ui';
    Vue.component(TableColumn.name, TableColumn);
    Vue.component(Table.name, Table);
    Vue.component(MessageBox.name, MessageBox);
@@ -215,6 +234,8 @@
    Vue.component(Dialog.name, Dialog);
    Vue.component(Menu.name, Menu);
    Vue.component(MenuItem.name, MenuItem);
+   Vue.component(Pagination.name, Pagination);
+  
     export default{
         mounted: function() {
             window.eventBus.$on('test', func => {
@@ -300,15 +321,20 @@
                 expands:[],
                 arrNumber:0,
                 selectVisible:false,
-                workingHours:[{name:'保养',type:'1'},{name:'洗车',type:'2'}],
+                clickWorking:'1',
+                workingHours:[{name:'保养',id:'1',data:[{id:'111',childName:'SDSEEgsss',type:'普通',price:'900'},{id:'1211',childName:'vvv',type:'普通',price:'32'}]},{name:'洗车',id:'2'},{name:'美容',id:'3'},{name:'机修',id:'4'},{name:'精品',id:'5'},{name:'其他',id:'6'}],
+                workingHoursData:'',
                 resultHours:[],
-                searchName:''                
+                searchName:'',
+                currentPage:2               
             }
             
         },
          mounted() {
         // 在这里你想初始化的时候展开哪一行都可以了
         this.expands.push(this.serviceTable[0].id);
+        this.workingHoursData=this.workingHours[0].data,
+        console.log(this.workingHoursData+'====');
     },
         methods:{
         deleteRow(index,rows){
@@ -461,7 +487,19 @@
             },
             handleIconClick(){
 
-            }
+            },
+            saveSelectVisible(){},
+            selectAccessories(id){
+                this.clickWorking=id;
+                this.workingHoursData=this.workingHours[id-1].data;
+                console.log(this.workingHoursData);
+            },
+            selectWorking(){},
+            sizeChange(val){
+
+            },
+            currentChange(val){}
+
            
         }
     }
