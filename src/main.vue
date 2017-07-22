@@ -78,11 +78,11 @@
 			</div>
 			<div class='column m_right'>
 			
-				<router-view></router-view>
-				
+				<p><router-view></router-view></p>
+				<p class="bottom">所有权归属</p>
 			</div>
 		</div>
-		<div class='column is-gapless has-text-centered bottom'>所有权归属</div>
+		
     <!--<div>
         <div>
             <a to="/about">about</a>

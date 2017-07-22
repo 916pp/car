@@ -27,7 +27,8 @@ a.buttom{color:#f4f8fb;}
 
 /*main*/
 /*main left*/
-.main{margin-bottom:0!important;}
+.main{margin:-.75rem 0 0!important;  width: 100%; min-height: 544px;  top:90px; bottom: 0; position: absolute;}
+.m_left .menu{background:#1e1e1e;}
 .m_left .menu-list a{color:#dedede;}
 .m_left .menu-list a:hover{background:#5d5c5c;     color: #dedede;
 }
@@ -35,7 +36,9 @@ a.buttom{color:#f4f8fb;}
 .navActive{background:white; }
 .navActive span{color:#ff6600;}
 /*main right*/
-.m_right{max-height:544px; overflow:auto;}
+.m_right{min-height:544px; height: auto; width: auto; overflow:auto;}
+/*bottom*/
+.bottom{position: fixed; bottom: 0px; width: 100%; text-align: center; padding: 7px 0;}
 
 /*work*/
 .w_button{

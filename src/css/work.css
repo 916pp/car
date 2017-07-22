@@ -99,7 +99,7 @@ a.nav-item.is-tab:hover{border-bottom: 2px solid #f60;}
 
 
         /*底部按钮*/
-.se_bottom{position: fixed; width: 92%; bottom: 0px;  }
+.se_bottom{position: fixed; width: 92%; bottom: 30px;  }
 
 
 /*服务记录------------------------------*/
