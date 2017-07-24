@@ -96,7 +96,7 @@ a.nav-item.is-tab:hover{border-bottom: 2px solid #f60;}
 .serviceBilling .border1{border: 1px solid #1e82dd;}
 .serviceBilling .el-menu-item.is-active{color: black;}
 .serviceBilling .click-active{color:#1e82dd !important; font-weight: bold; }
-
+.workingPage{text-align: center; margin: 5px 0;}
 
         /*底部按钮*/
 .se_bottom{position: fixed; width: 92%; bottom: 30px;  }
@@ -119,7 +119,7 @@ a.nav-item.is-tab:hover{border-bottom: 2px solid #f60;}
 
 
 /*分页*/
-.page{background: #1e1e1e; position: fixed; bottom: 0rem; color: white; width: 92%; text-align: center;}
+.page{background: #1e1e1e; position: fixed; z-index: 100; bottom: 0rem; color: white; width: 92%; text-align: center;}
 .page .el-pagination{margin: 10px 0 ;}
 .page .number{ border-radius: 0; margin: 0 3px;}
 .page .el-pagination__total{color: white;}

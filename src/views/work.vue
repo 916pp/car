@@ -1,5 +1,5 @@
 <template>
-<div class="work_right">
+<div>
     <div class="w_main" v-if="navName=='none'">
       <div class=" columns has-text-centered is-marginless	">
         <div class="column mar_tb15">

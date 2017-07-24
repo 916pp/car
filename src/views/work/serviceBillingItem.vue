@@ -182,7 +182,7 @@
                             </el-menu>
                         </div>
                         <div class="column">
-                            <el-table :data="workingHoursData" border style="width:100%" @select-change="selectWorking">
+                            <el-table ref='objectWorking' :data="workingHoursData" border style="width:100%"  @row-click="selectWorking" @selection-change="selectAllWorking">
                                 <el-table-column type="selection" width="50"></el-table-column>
                                 <el-table-column label="名称">
                                     <template scope='scope'>{{scope.row.childName}}</template>
@@ -193,7 +193,7 @@
                                 </el-table-column>
                             </el-table>
                             <el-pagination @size-change="sizeChange" @current-change="currentChange" :current-page.sync="currentPage" :page-size="10"
-                            layout="total,prev,pager,next" :total="50"></el-pagination>
+                            layout="total,prev,pager,next" :total="50" class="workingPage"></el-pagination>
                         </div>
                     </div>
                 </div>
@@ -202,7 +202,7 @@
                     <el-table :data="resultHours" border style="width:100%" :show-header="false" v-if="resultHours.length>0">
                         <el-table-column prop="childName"></el-table-column>
                         <el-table-column >
-                            <template scope="scope">11{{scope.row.id}}</template>
+                            <template scope="scope"><a><i class="icon iconfont icon-shanchu"></i></a></template>
                         </el-table-column>
                     </el-table>
                 </div>
@@ -325,6 +325,7 @@
                 workingHours:[{name:'保养',id:'1',data:[{id:'111',childName:'SDSEEgsss',type:'普通',price:'900'},{id:'1211',childName:'vvv',type:'普通',price:'32'}]},{name:'洗车',id:'2'},{name:'美容',id:'3'},{name:'机修',id:'4'},{name:'精品',id:'5'},{name:'其他',id:'6'}],
                 workingHoursData:'',
                 resultHours:[],
+                selectWorkingName:'',
                 searchName:'',
                 currentPage:2               
             }
@@ -333,8 +334,8 @@
          mounted() {
         // 在这里你想初始化的时候展开哪一行都可以了
         this.expands.push(this.serviceTable[0].id);
-        this.workingHoursData=this.workingHours[0].data,
-        console.log(this.workingHoursData+'====');
+        this.workingHoursData=this.workingHours[0].data;
+        //console.log(this.workingHoursData+'====');
     },
         methods:{
         deleteRow(index,rows){
@@ -491,11 +492,53 @@
             saveSelectVisible(){},
             selectAccessories(id){
                 this.clickWorking=id;
+                this.selectWorkingName=this.workingHours[id-1].name;
                 this.workingHoursData=this.workingHours[id-1].data;
                 console.log(this.workingHoursData);
             },
-            selectWorking(){},
+            selectWorking(row,event,cloumn){
+               // debugger;
+               //let len=  this.resultHours.length;
+              // var switchChild=true;
+             // let switchChild='1';
+             
+              this.$refs.objectWorking.toggleRowSelection(row);
+             /* if(len>0)
+              {
+                for(let i=0;i<len;i++)
+                {
+                    console.log('aaaa'+this.resultHours.length);
+                   if(this.resultHours[i].id==row.id)
+                   {
+                       console.log('bbbb'+this.resultHours[i].childName)
+                       this.resultHours.splice(i,1);
+                       switchChild=false;
+                       return;
+                   }
+                  
+                }
+                console.log('cc'+this.resultHours);
+                 if(switchChild)
+                   {
+                       this.resultHours.push(row);
+                   }
+
+              }else{
+                  this.resultHours.push(row);
+              }*/
+               // console.log(this.resultHours.length);
+               
+            },
+            selectAllWorking(val){
+                //this.resultHours=[];
+                this.resultHours=val;
+              /*  console.log(val);
+               val.forEach(row => {
+            this.$refs.objectWorking.toggleRowSelection(row);
+          });*/
+            },
             sizeChange(val){
+                /*分页 */
 
             },
             currentChange(val){}

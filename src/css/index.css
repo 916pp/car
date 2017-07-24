@@ -27,7 +27,7 @@ a.buttom{color:#f4f8fb;}
 
 /*main*/
 /*main left*/
-.main{margin:-.75rem 0 0!important;  width: 100%; min-height: 544px;  top:90px; bottom: 0; position: absolute;}
+.main{ width: 100%; min-height: 544px;  top:90px; bottom: 0; position: absolute;}
 .m_left .menu{background:#1e1e1e;}
 .m_left .menu-list a{color:#dedede;}
 .m_left .menu-list a:hover{background:#5d5c5c;     color: #dedede;
