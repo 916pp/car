@@ -7,7 +7,7 @@ function resolve(relPath) {
 }
 
 module.exports = {
-    	devtool:'eval-source-map',
+    devtool:'eval-source-map',
     entry: { app: resolve('../src/main.js'),login:resolve('../src/login.js') },
     output: {
         filename: 'js/[name].js'
