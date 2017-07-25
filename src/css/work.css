@@ -97,7 +97,8 @@ a.nav-item.is-tab:hover{border-bottom: 2px solid #f60;}
 .serviceBilling .el-menu-item.is-active{color: black;}
 .serviceBilling .click-active{color:#1e82dd !important; font-weight: bold; }
 .workingPage{text-align: center; margin: 5px 0;}
-
+.columnLeft .cell{text-align: left;}
+.columnLeft{ padding-left:5px;}
         /*底部按钮*/
 .se_bottom{position: fixed; width: 92%; bottom: 30px;  }
 

@@ -4,7 +4,7 @@
         <el-form :model="service" :rules="rules" ref="service">
         <div class="columns is-marginless">
             <el-table :data="serviceTable" border :row-key="getRowKey" :expand-row-keys="expands">
-                <el-table-column type="expand" width="20" :label-class-name="aaa">
+                <el-table-column type="expand" width="20" >
                     <template scope='Parents'>
                         <el-table :data="Parents.row.children" :show-header="false">
                                 <el-table-column width="34" >
@@ -183,9 +183,12 @@
                         </div>
                         <div class="column">
                             <el-table ref='objectWorking' :data="workingHoursData" border style="width:100%"  @row-click="selectWorking" @selection-change="selectAllWorking">
-                                <el-table-column type="selection" width="50"></el-table-column>
-                                <el-table-column label="名称">
-                                    <template scope='scope'>{{scope.row.childName}}</template>
+                                <el-table-column label="名称" class-name='columnLeft'>
+                                    <template scope="scope" >
+                                        <el-checkbox-group v-model='checkedHours' @change='aa'>
+                                            <el-checkbox :label='scope.row.childName' :key='scope.row.id'>{{scope.row.childName}}</el-checkbox>
+                                        </el-checkbox-group>
+                                    </template>
                                 </el-table-column>
                                 <el-table-column label="类别" width="80" prop="type">  </el-table-column>
                                 <el-table-column label="售价" width="60" >
@@ -198,13 +201,25 @@
                     </div>
                 </div>
                 <div class="column border1">
-                    <p>您已经选这<span class="">{{resultHours.length}}</span>个工时</p>
-                    <el-table :data="resultHours" border style="width:100%" :show-header="false" v-if="resultHours.length>0">
-                        <el-table-column prop="childName"></el-table-column>
-                        <el-table-column >
-                            <template scope="scope"><a><i class="icon iconfont icon-shanchu"></i></a></template>
+                    <p>您已经选这<span class="">{{resultHourslen}}</span>个工时</p>
+                    <ul class='' v-for="child in resultHours">
+                        <li class='' v-for="item in child.data">{{item.childName}}</li>
+                    </ul>
+                    <!--<el-table :data="resultHours" border style="width:100%" :show-header="false" :default-expand-all="true">
+                        <el-table-column type="expand" width="1">
+                            <template scope="scope">
+                                <el-table :data="scope.row.data" :show-header="false" border style="width:100%"  v-if="scope.row.data.length>0">
+                                    <el-table-column prop="childName"></el-table-column>
+                                    <el-table-column >
+                                        <template scope="scope">
+                                            <a><i class="icon iconfont icon-shanchu"></i></a>
+                                        </template>
+                                    </el-table-column>
+                                </el-table>
+                            </template>
                         </el-table-column>
-                    </el-table>
+                        
+                    </el-table>-->
                 </div>
             </div>
             <div slot="footer" class="dialog-footer">
@@ -216,7 +231,7 @@
 <script>
      import Vue from 'vue';
      require('../../css/iconfont.css');
-   import {Select,Option,OptionGroup,DatePicker,Input,MessageBox, Message,Tabs,TabPane,Form,FormItem,Col,TableColumn,Table,Dialog,Menu,MenuItem,Pagination} from 'element-ui';
+   import {CheckboxGroup,Checkbox,Select,Option,OptionGroup,DatePicker,Input,MessageBox, Message,Tabs,TabPane,Form,FormItem,Col,TableColumn,Table,Dialog,Menu,MenuItem,Pagination} from 'element-ui';
    Vue.component(TableColumn.name, TableColumn);
    Vue.component(Table.name, Table);
    Vue.component(MessageBox.name, MessageBox);
@@ -235,6 +250,8 @@
    Vue.component(Menu.name, Menu);
    Vue.component(MenuItem.name, MenuItem);
    Vue.component(Pagination.name, Pagination);
+    Vue.component(CheckboxGroup.name, CheckboxGroup);
+   Vue.component(Checkbox.name, Checkbox);
   
     export default{
         mounted: function() {
@@ -316,15 +333,35 @@
                     {value:'5',label:'其他'}
                 ],
                 getRowKey(row){
-                      return row.id
+                      return row.id;
                 },
                 expands:[],
                 arrNumber:0,
                 selectVisible:false,
                 clickWorking:'1',
-                workingHours:[{name:'保养',id:'1',data:[{id:'111',childName:'SDSEEgsss',type:'普通',price:'900'},{id:'1211',childName:'vvv',type:'普通',price:'32'}]},{name:'洗车',id:'2'},{name:'美容',id:'3'},{name:'机修',id:'4'},{name:'精品',id:'5'},{name:'其他',id:'6'}],
+                workingHours:[{name:'保养',id:'1',
+                data:[{id:'111',childName:'SDSEEgsss',type:'普通',price:'900'},
+                {id:'1211',childName:'vvv',type:'普通',price:'32'}]},
+                {name:'洗车',id:'2',
+                data:[{id:'21',childName:'洗车',type:'普通',price:'67'},
+                {id:'22',childName:'精洗',type:'外发',price:'44'}]},
+                {name:'美容',id:'3',
+                data:[{id:'31',childName:'装饰',type:'代办',price:'637'},
+                {id:'32',childName:'贴膜',type:'外发',price:'464'}]},
+                {name:'机修',id:'4',
+                data:[{id:'31',childName:'发动机',type:'代办',price:'432'},
+                {id:'32',childName:'贴膜',type:'外发',price:'123'}]},
+                {name:'精品',id:'5',
+                data:[{id:'31',childName:'装饰',type:'代办',price:'33'},
+                {id:'32',childName:'贴膜',type:'外发',price:'447'}]},
+                {name:'其他',id:'6',
+                data:[]}],
                 workingHoursData:'',
                 resultHours:[],
+                NowResultHoursNum:0,
+                resultHourslen:0,
+                selectHoursLen:0,
+                checkedHours:[],
                 selectWorkingName:'',
                 searchName:'',
                 currentPage:2               
@@ -335,15 +372,18 @@
         // 在这里你想初始化的时候展开哪一行都可以了
         this.expands.push(this.serviceTable[0].id);
         this.workingHoursData=this.workingHours[0].data;
+        this.clickWorking=this.workingHours[0].id;
+        this.selectWorkingName=this.workingHours[0].name;
+        
         //console.log(this.workingHoursData+'====');
     },
         methods:{
         deleteRow(index,rows){
                //console.log(rows[index].id);
                //let id=rows['id'];
-               console.log(!rows.children+'+++');
-               console.log(this.serviceTable[rows[index].id]['children'].length+'===');
-               console.log(index+'--');
+              // console.log(!rows.children+'+++');
+               //console.log(this.serviceTable[rows[index].id]['children'].length+'===');
+              // console.log(index+'--');
                 if(index==0 && !rows.children && this.serviceTable[rows[index].id]['children'].length==1)
                 {
                     console.log(index+'--');
@@ -491,50 +531,77 @@
             },
             saveSelectVisible(){},
             selectAccessories(id){
+               /*选择项目类型*/
                 this.clickWorking=id;
                 this.selectWorkingName=this.workingHours[id-1].name;
                 this.workingHoursData=this.workingHours[id-1].data;
-                console.log(this.workingHoursData);
+                 this.selectHoursLen=0;
+               // console.log(this.workingHoursData);
+            },
+            aa(e) {
+                console.log(e);
             },
             selectWorking(row,event,cloumn){
-               // debugger;
+               debugger;
                //let len=  this.resultHours.length;
-              // var switchChild=true;
+              
+               
+              var switchChild=true;
              // let switchChild='1';
-             
-              this.$refs.objectWorking.toggleRowSelection(row);
-             /* if(len>0)
+             //let selectHours=this.selectHours;
+             if(this.selectHoursLen==0)
+             {
+                 this.resultHours.push({name:''+this.selectWorkingName+'',id:''+this.clickWorking+'',data:[]});
+                 this.NowResultHoursNum=this.resultHours.length-1;
+            // console.log(this.resultHours[this.clickWorking].data);
+
+             }
+             // this.$refs.objectWorking.toggleRowSelection(row);
+              if(this.selectHoursLen>0)
               {
-                for(let i=0;i<len;i++)
+                  //debugger;
+                for(let i=0,len=this.resultHours[this.NowResultHoursNum].data.length;i<len;i++)
                 {
-                    console.log('aaaa'+this.resultHours.length);
-                   if(this.resultHours[i].id==row.id)
+                    //console.log('aaaa'+this.resultHours.length);
+                   if(this.resultHours[this.NowResultHoursNum].data[i].id==row.id)
                    {
-                       console.log('bbbb'+this.resultHours[i].childName)
-                       this.resultHours.splice(i,1);
+                      // console.log('bbbb'+this.resultHours[this.clickWorking].data.childName)
+                       this.resultHours[this.NowResultHoursNum].data.splice(i,1);
                        switchChild=false;
+                       this.selectHoursLen--
+                        this.resultHourslen--;
                        return;
                    }
                   
                 }
-                console.log('cc'+this.resultHours);
+                //console.log('cc'+this.resultHours);
                  if(switchChild)
                    {
-                       this.resultHours.push(row);
+                       this.resultHours[this.NowResultHoursNum].data.push(row);
+                       this.selectHoursLen++;
+                        this.resultHourslen++;
+                         this.checkedHours.push(row.id);
                    }
 
               }else{
-                  this.resultHours.push(row);
-              }*/
-               // console.log(this.resultHours.length);
+
+               
+                this.checkedHours.push(row.id);
+               
+
+                  this.resultHours[this.NowResultHoursNum].data.push(row);
+                  this.selectHoursLen++;
+                  this.resultHourslen++;
+                  //console.log(this.resultHours[this.NowResultHoursNum].data.length);
+              }
                
             },
             selectAllWorking(val){
                 //this.resultHours=[];
-                this.resultHours=val;
+                //this.resultHours[this.selectHours].data=val;
               /*  console.log(val);
                val.forEach(row => {
-            this.$refs.objectWorking.toggleRowSelection(row);
+            this.$refs.objectWorking.toggleRowSelection(row);this     @chang='changCheckHours'
           });*/
             },
             sizeChange(val){
