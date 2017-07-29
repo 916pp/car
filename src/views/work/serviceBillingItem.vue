@@ -182,11 +182,11 @@
                             </el-menu>
                         </div>
                         <div class="column">
-                            <el-table ref='objectWorking' :data="workingHoursData" border style="width:100%"  @row-click="selectWorking" @selection-change="selectAllWorking">
+                            <el-table ref='objectWorking' :data="workingHoursData" border style="width:100%"  @row-click="selectWorking" >
                                 <el-table-column label="名称" class-name='columnLeft'>
                                     <template scope="scope" >
-                                        <el-checkbox-group v-model='checkedHours' @change='aa'>
-                                            <el-checkbox :label='scope.row.childName' :key='scope.row.id'>{{scope.row.childName}}</el-checkbox>
+                                        <el-checkbox-group v-model='checkedHours' @change="changeBoxSwitch">
+                                            <el-checkbox :label='scope.row.id' :key='scope.row.childName'>{{scope.row.childName}}</el-checkbox>
                                         </el-checkbox-group>
                                     </template>
                                 </el-table-column>
@@ -205,21 +205,7 @@
                     <ul class='' v-for="child in resultHours">
                         <li class='' v-for="item in child.data">{{item.childName}}</li>
                     </ul>
-                    <!--<el-table :data="resultHours" border style="width:100%" :show-header="false" :default-expand-all="true">
-                        <el-table-column type="expand" width="1">
-                            <template scope="scope">
-                                <el-table :data="scope.row.data" :show-header="false" border style="width:100%"  v-if="scope.row.data.length>0">
-                                    <el-table-column prop="childName"></el-table-column>
-                                    <el-table-column >
-                                        <template scope="scope">
-                                            <a><i class="icon iconfont icon-shanchu"></i></a>
-                                        </template>
-                                    </el-table-column>
-                                </el-table>
-                            </template>
-                        </el-table-column>
-                        
-                    </el-table>-->
+                   
                 </div>
             </div>
             <div slot="footer" class="dialog-footer">
@@ -362,6 +348,7 @@
                 resultHourslen:0,
                 selectHoursLen:0,
                 checkedHours:[],
+               
                 selectWorkingName:'',
                 searchName:'',
                 currentPage:2               
@@ -538,15 +525,27 @@
                  this.selectHoursLen=0;
                // console.log(this.workingHoursData);
             },
-            aa(e) {
-                console.log(e);
-            },
-            selectWorking(row,event,cloumn){
-               debugger;
-               //let len=  this.resultHours.length;
-              
+           changeBoxSwitch()
+           {
                
-              var switchChild=true;
+            
+           },
+            selectWorking(row,event,cloumn){
+            //    debugger;
+           
+              const target = event.target || event.srcElement;
+               event.stopPropagation();
+                  event.preventDefault();
+            /*   if (target.tagName.toLowerCase() === 'input') {
+                  
+                  event.stopPropagation();
+                  event.preventDefault();
+                  this.aa=false;
+                 
+                  return;
+              } */
+              
+              let switchChild=true;
              // let switchChild='1';
              //let selectHours=this.selectHours;
              if(this.selectHoursLen==0)
@@ -560,9 +559,9 @@
               if(this.selectHoursLen>0)
               {
                   //debugger;
+                  
                 for(let i=0,len=this.resultHours[this.NowResultHoursNum].data.length;i<len;i++)
                 {
-                    //console.log('aaaa'+this.resultHours.length);
                    if(this.resultHours[this.NowResultHoursNum].data[i].id==row.id)
                    {
                       // console.log('bbbb'+this.resultHours[this.clickWorking].data.childName)
@@ -570,31 +569,36 @@
                        switchChild=false;
                        this.selectHoursLen--
                         this.resultHourslen--;
+                        for(let n=0,length=this.checkedHours.length;n<length;n++)
+                        {
+                            if(this.checkedHours[n]==row.id)
+                            {
+                                this.checkedHours.splice(n,1);
+                                return;
+                            }
+                        }
+
                        return;
                    }
                   
                 }
                 //console.log('cc'+this.resultHours);
-                 if(switchChild)
+                 
+
+              }
+              
+               if(switchChild)
                    {
                        this.resultHours[this.NowResultHoursNum].data.push(row);
                        this.selectHoursLen++;
                         this.resultHourslen++;
+                      
                          this.checkedHours.push(row.id);
+                     
+                      
+                       
                    }
-
-              }else{
-
-               
-                this.checkedHours.push(row.id);
-               
-
-                  this.resultHours[this.NowResultHoursNum].data.push(row);
-                  this.selectHoursLen++;
-                  this.resultHourslen++;
-                  //console.log(this.resultHours[this.NowResultHoursNum].data.length);
-              }
-               
+              
             },
             selectAllWorking(val){
                 //this.resultHours=[];
