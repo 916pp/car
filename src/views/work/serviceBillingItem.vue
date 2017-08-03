@@ -145,7 +145,7 @@
         </div>
         <div class="columns is-marginless workerBut">
             <div class="column">
-             <a class="button" @click="selectVisible=true">选择工时</a><a class="button">添加工时</a>
+             <a class="button" @click="openSelectVisible">选择工时</a><a class="button">添加工时</a>
              </div>
         </div>
         <div class="columns is-marginless">
@@ -185,7 +185,7 @@
                             <el-table ref='objectWorking' :data="workingHoursData" border style="width:100%"  @row-click="selectWorking" >
                                 <el-table-column label="名称" class-name='columnLeft'>
                                     <template scope="scope" >
-                                        <el-checkbox-group v-model='checkedHours' @change="changeBoxSwitch">
+                                        <el-checkbox-group v-model='checkedHours' >
                                             <el-checkbox :label='scope.row.id' :key='scope.row.childName'>{{scope.row.childName}}</el-checkbox>
                                         </el-checkbox-group>
                                     </template>
@@ -195,15 +195,15 @@
                                     <template scope='scope'>￥{{scope.row.price}}</template>
                                 </el-table-column>
                             </el-table>
-                            <el-pagination @size-change="sizeChange" @current-change="currentChange" :current-page.sync="currentPage" :page-size="10"
-                            layout="total,prev,pager,next" :total="50" class="workingPage"></el-pagination>
+                            <el-pagination @size-change="sizeChange" @current-change="currentChange" :current-page.sync="currentPage" :page-size="pageSize"
+                            layout="total,prev,pager,next" :total="totalWorkingHoursData.length" class="workingPage"></el-pagination>
                         </div>
                     </div>
                 </div>
                 <div class="column border1">
                     <p>您已经选这<span class="">{{resultHourslen}}</span>个工时</p>
                     <ul class='' v-for="child in resultHours">
-                        <li class='' v-for="item in child.data">{{item.childName}}</li>
+                        <li class='' v-for="item in child.data"><a class="del" @click="delResultHour(item.id)"><span class="resultName">{{item.childName}}</span><i class="icon iconfont icon-shanchu"></i></a></li>
                     </ul>
                    
                 </div>
@@ -327,7 +327,8 @@
                 clickWorking:'1',
                 workingHours:[{name:'保养',id:'1',
                 data:[{id:'111',childName:'SDSEEgsss',type:'普通',price:'900'},
-                {id:'1211',childName:'vvv',type:'普通',price:'32'}]},
+                {id:'1211',childName:'vvv',type:'普通',price:'32'},
+                 {id:'311',childName:'ffw',type:'普通',price:'72'}]},
                 {name:'洗车',id:'2',
                 data:[{id:'21',childName:'洗车',type:'普通',price:'67'},
                 {id:'22',childName:'精洗',type:'外发',price:'44'}]},
@@ -343,6 +344,7 @@
                 {name:'其他',id:'6',
                 data:[]}],
                 workingHoursData:'',
+                totalWorkingHoursData:'',
                 resultHours:[],
                 NowResultHoursNum:0,
                 resultHourslen:0,
@@ -351,18 +353,22 @@
                
                 selectWorkingName:'',
                 searchName:'',
-                currentPage:2               
+                currentPage:1,
+                pageSize:1    
             }
             
         },
          mounted() {
         // 在这里你想初始化的时候展开哪一行都可以了
         this.expands.push(this.serviceTable[0].id);
-        this.workingHoursData=this.workingHours[0].data;
+        /* this.totalWorkingHoursData=this.workingHours[0].data;
+         
+        this.workingHoursData=this.totalWorkingHoursData.slice(0,this.pageSize);
+     
         this.clickWorking=this.workingHours[0].id;
-        this.selectWorkingName=this.workingHours[0].name;
+        this.selectWorkingName=this.workingHours[0].name; */
         
-        //console.log(this.workingHoursData+'====');
+        
     },
         methods:{
         deleteRow(index,rows){
@@ -516,20 +522,39 @@
             handleIconClick(){
 
             },
-            saveSelectVisible(){},
+            openSelectVisible(){
+                this.totalWorkingHoursData=this.workingHours[0].data;
+         
+                this.workingHoursData=this.totalWorkingHoursData.slice(0,this.pageSize);
+            
+                this.clickWorking=this.workingHours[0].id;
+                this.selectWorkingName=this.workingHours[0].name;
+                this.selectHoursLen=0;
+                this.resultHourslen=0;
+                this.checkedHours=[];
+                this.resultHours=[];
+                this.selectVisible=true;
+            },
+            saveSelectVisible(){
+                
+                this.selectVisible=false;
+            },
+          
             selectAccessories(id){
                /*选择项目类型*/
+                   
+
+
                 this.clickWorking=id;
                 this.selectWorkingName=this.workingHours[id-1].name;
-                this.workingHoursData=this.workingHours[id-1].data;
+                this.totalWorkingHoursData=this.workingHours[id-1].data;
+                this.currentPage=1;
+                this.currentChange(1);
+               // this.workingHoursData= this.totalWorkingHoursData.slice(0,this.pageSize);
                  this.selectHoursLen=0;
-               // console.log(this.workingHoursData);
+              
             },
-           changeBoxSwitch()
-           {
-               
-            
-           },
+          
             selectWorking(row,event,cloumn){
             //    debugger;
            
@@ -574,11 +599,11 @@
                             if(this.checkedHours[n]==row.id)
                             {
                                 this.checkedHours.splice(n,1);
-                                return;
+                                break;
                             }
                         }
 
-                       return;
+                       break;
                    }
                   
                 }
@@ -600,19 +625,53 @@
                    }
               
             },
-            selectAllWorking(val){
-                //this.resultHours=[];
-                //this.resultHours[this.selectHours].data=val;
-              /*  console.log(val);
-               val.forEach(row => {
-            this.$refs.objectWorking.toggleRowSelection(row);this     @chang='changCheckHours'
-          });*/
-            },
+           delResultHour(id){
+
+
+               
+               
+            for(let y=0,l=this.checkedHours.length;y<l;y++)
+            {
+                
+                if(this.checkedHours[y]==id)
+                {
+                    this.checkedHours.splice(y,1);
+                   
+                    break;
+                }
+            }
+
+            
+               let condition=false;
+            for(let i=0,len=this.resultHours.length;i<len;i++)
+            {
+               for(let n=0,le=this.resultHours[i].data.length;n<le;n++)
+               {
+                   if(this.resultHours[i].data[n].id==id)
+                   {
+                       this.resultHours[i].data.splice(n,1);
+                       condition=true;
+                       return;
+                   }
+               }
+               //if(condition) return;
+
+               
+            }
+            
+           },
             sizeChange(val){
-                /*分页 */
+               
 
             },
-            currentChange(val){}
+            currentChange(val){
+                 /*分页 */
+                
+                 let start=val===1?0:(val-1)*this.pageSize;
+                 let end=this.pageSize*val;
+                
+                 this.workingHoursData= this.totalWorkingHoursData.slice(start,end);
+            }
 
            
         }

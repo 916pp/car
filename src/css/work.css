@@ -99,6 +99,10 @@ a.nav-item.is-tab:hover{border-bottom: 2px solid #f60;}
 .workingPage{text-align: center; margin: 5px 0;}
 .columnLeft .cell{text-align: left;}
 .columnLeft{ padding-left:5px;}
+.resultName{display: inline-block;
+    width: 90%;}
+a.del{color: black;}
+a.del:hover{color: #1e82dd;}
         /*底部按钮*/
 .se_bottom{position: fixed; width: 92%; bottom: 30px;  }
 
