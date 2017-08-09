@@ -1,5 +1,5 @@
 <template>
-    <div class="serviceBilling mar_t20l10">
+    <div class="serviceBilling mar_20_10">
         <h2>服务项目</h2>
         <el-form :model="service" :rules="rules" ref="service">
         <div class="columns is-marginless">
@@ -145,7 +145,7 @@
         </div>
         <div class="columns is-marginless workerBut">
             <div class="column">
-             <a class="button" @click="openSelectVisible">选择工时</a><a class="button">添加工时</a>
+             <a class="button" @click="openSelectVisible">选择工时</a>
              </div>
         </div>
         <div class="columns is-marginless">
@@ -209,7 +209,7 @@
                 </div>
             </div>
             <div slot="footer" class="dialog-footer">
-                <a class="button" @click="selectVisible=false">取消</a><a class="button" @click="saveSelectVisible">确定</a>
+                <a class="button addBut">添加工时</a><a class="button" @click="selectVisible=false">取消</a><a class="button" @click="saveSelectVisible">确定</a>
             </div>
         </el-dialog>
     </div>
@@ -269,14 +269,14 @@
                 },
                 total:{check:'',time:'',accessories:'',money:''},
                 serviceTable:[
-                    {id:'0',name:'大众机油格068115561B',type:'百姓',toll:'试试',
+                    {id:'10',name:'大众机油格068115561B',type:'百姓',toll:'试试',
                     price:'900',showPrice:false,number:'2',showNumber:false,discounted:'0',showDiscounted:false,money:'900', 
                     worker:['里么非'],workerLabel:'张熙玲',showWorker:false,sales:'ddd3',salesLabel:'d',showSales:false,showButton:false,
                     children:[
                         {id:'0',name:'www',type:'百姓',toll:'试试',
                          price:'900',showPrice:false,number:'2',showNumber:false,discounted:'0',showDiscounted:false,money:'900', 
                          worker:['里么非'],workerLabel:'张熙玲',showWorker:false,sales:'ddd3',salesLabel:'d',showSales:false,showButton:false},
-                        {id:'0',name:'e33',type:'百姓',toll:'试试',
+                        {id:'120',name:'e33',type:'百姓',toll:'试试',
                         price:'900',showPrice:false,number:'2',showNumber:false,discounted:'0',showDiscounted:false,money:'900', 
                         worker:['里么非'],workerLabel:'张熙玲',showWorker:false,sales:'ddd3',salesLabel:'d',showSales:false,showButton:false}
                         ]
@@ -372,18 +372,20 @@
     },
         methods:{
         deleteRow(index,rows){
-               //console.log(rows[index].id);
+               console.log(rows[index].id);
                //let id=rows['id'];
-              // console.log(!rows.children+'+++');
+              console.log(!rows.children+'+++');
                //console.log(this.serviceTable[rows[index].id]['children'].length+'===');
-              // console.log(index+'--');
-                if(index==0 && !rows.children && this.serviceTable[rows[index].id]['children'].length==1)
-                {
-                    console.log(index+'--');
-                    this.expands.splice(rows.id,1);
-                } 
+              console.log(index+'--');
+             // debugger;
+              
+               // if(index==0 && !rows.children && this.serviceTable[index]['children'].length==1)
+               // {
+                    //console.log(index+'--');
+                    //this.expands.splice(index,1);
+               // } 
                 rows.splice(index,1);
-                 console.log(this.expands.length);       
+                 //console.log(this.expands.length);       
             },
             saveBut(index,row){
                 //console.log(row.price);
@@ -481,8 +483,8 @@
                     price:'60',showPrice:true,number:'12',showNumber:true,discounted:'0',showDiscounted:true,money:'340',showMoney:true,
                     worker:'',showWorker:true,sales:'',showSales:true,showButton:true}
                
-
-                rows.splice(index+1,0,item);
+                console.log(rows);
+                rows[index].children.splice(rows[index].children.length,0,item);
                        
 
 
@@ -537,6 +539,10 @@
             },
             saveSelectVisible(){
                 
+                let resultHours=this.resultHours;
+                console.log(this.resultHours[0].name);
+                console.log(this.resultHours[0].data);
+
                 this.selectVisible=false;
             },
           
@@ -623,6 +629,7 @@
                       
                        
                    }
+                  
               
             },
            delResultHour(id){

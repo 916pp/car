@@ -100,11 +100,13 @@ a.nav-item.is-tab:hover{border-bottom: 2px solid #f60;}
 .columnLeft .cell{text-align: left;}
 .columnLeft{ padding-left:5px;}
 .resultName{display: inline-block;
-    width: 90%;}
+    width: 88%;}
 a.del{color: black;}
 a.del:hover{color: #1e82dd;}
+.serviceBilling .el-table__body-wrapper{overflow: hidden;}
+.addBut{display: inline-block; float: left; background: #1e82dd; color: white;}
         /*底部按钮*/
-.se_bottom{position: fixed; width: 92%; bottom: 30px;  }
+.se_bottom{position: fixed; width: 92%; bottom: -10px;  z-index: 101;}
 
 
 /*服务记录------------------------------*/
@@ -137,6 +139,8 @@ a.del:hover{color: #1e82dd;}
 .mar_tl20{margin: 20px 0 0 20px;}
 .mar_20{margin: 20px;}
 .mar_t20l10{margin: 20px 10px 0;}
+.mar_20_10{margin: 20px 10px;}
+
 .mar_rl10{margin: 0 10px;}
 .mar_brl10{margin: 0 10px 10px;}
 
